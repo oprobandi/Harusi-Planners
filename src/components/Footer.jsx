@@ -1,4 +1,31 @@
 import { Link } from 'react-router-dom'
+import { Instagram, Facebook, Youtube, Mail } from 'lucide-react'
+
+// TikTok — not in Lucide; minimal inline SVG matching Lucide's style
+function TikTokIcon({ size = 18 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  )
+}
+
+const SOCIAL = [
+  { Icon: Instagram, label: 'Instagram', href: '#' },
+  { Icon: Facebook,  label: 'Facebook',  href: '#' },
+  { Icon: TikTokIcon,label: 'TikTok',    href: '#' },
+  { Icon: Youtube,   label: 'YouTube',   href: '#' },
+]
 
 const company = [
   { label: 'About Us',      to: '/' },
@@ -8,10 +35,10 @@ const company = [
 ]
 
 const support = [
-  { label: 'Contact Us',    to: '/' },
-  { label: 'Vendor Portal', to: '/vendors' },
-  { label: 'Privacy Policy',to: '/' },
-  { label: 'FAQs',          to: '/' },
+  { label: 'Contact Us',     to: '/' },
+  { label: 'Vendor Portal',  to: '/vendors' },
+  { label: 'Privacy Policy', to: '/' },
+  { label: 'FAQs',           to: '/' },
 ]
 
 export default function Footer() {
@@ -34,19 +61,25 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-14 mb-20">
         {/* Brand */}
         <div>
-          <div className="text-2xl font-serif italic gold-shimmer mb-6">Harusi.</div>
-          <p className="text-sm text-white/40 leading-relaxed">
+          {/* Wordmark — matches Navbar style */}
+          <div className="flex items-baseline gap-1 mb-6">
+            <span className="text-2xl font-serif italic gold-shimmer leading-none">Harusi</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold/60 leading-none mb-0.5">Planners</span>
+          </div>
+          <p className="text-sm text-white/40 leading-relaxed mb-8">
             Dedicated to the dreamers, the lovers, and the beautiful celebrations of East Africa.
           </p>
-          <div className="flex gap-4 mt-8">
-            {['ig', 'fb', 'tt'].map(s => (
+
+          {/* Social icons */}
+          <div className="flex gap-3">
+            {SOCIAL.map(({ Icon, label, href }) => (
               <a
-                key={s}
-                href="#"
-                aria-label={s === 'ig' ? 'Instagram' : s === 'fb' ? 'Facebook' : 'TikTok'}
-                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition text-xs font-bold uppercase"
+                key={label}
+                href={href}
+                aria-label={label}
+                className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:border-gold hover:text-gold transition"
               >
-                {s}
+                <Icon size={15} />
               </a>
             ))}
           </div>
@@ -80,7 +113,7 @@ export default function Footer() {
         <div>
           <h5 className="text-[10px] uppercase font-bold tracking-widest text-gold mb-8">Newsletter</h5>
           <p className="text-xs text-white/40 mb-5 leading-relaxed">
-            Inspiration, vendor spotlights & planning tips — straight to your inbox.
+            Inspiration, vendor spotlights &amp; planning tips — straight to your inbox.
           </p>
           <form
             onSubmit={e => {
@@ -91,6 +124,7 @@ export default function Footer() {
             noValidate
             className="flex border-b border-white/20 pb-2"
           >
+            <Mail size={14} className="text-white/30 shrink-0 mt-0.5 mr-2" aria-hidden="true" />
             <input
               type="email"
               name="email"

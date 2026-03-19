@@ -204,3 +204,68 @@ constant in `Vendors.jsx`).
 - When vendor count exceeds ~100, migrate to API + server-side pagination
   (V1.3 CMS migration will address this — see ADR-005)
 - Scroll-to-top on page change prevents disorientation on mobile
+
+---
+
+## ADR-013 · Icon Library: Lucide React over Heroicons or Phosphor
+
+**Date:** 2026-03-19 (V1.3) · **Status:** Accepted
+
+### Context
+The project used Unicode characters (`★☆✓✕+`) and emoji for icons throughout.
+This created inconsistency, poor accessibility, and limited styling control.
+
+### Decision
+Use **Lucide React** (`^0.383.0`) as the sole icon library.
+
+### Rationale
+| Factor | Lucide React | Heroicons | Phosphor |
+|---|---|---|---|
+| Style | Thin line, 2px stroke | Similar to Lucide | More expressive, variable weight |
+| Bundle | Tree-shaken per import | Tree-shaken | Tree-shaken |
+| Aesthetic fit | ✓ Matches Harusi's refined, minimal design | ✓ Similar | Slightly too playful |
+| React API | `<Icon size={n} />` | `<Icon className />` | `<Icon size={n} weight />` |
+| TikTok icon | ✕ Not in library | ✕ | ✕ |
+
+Lucide's thin 2px stroke weight matches the Cormorant Garamond + DM Sans typography
+pairing — both are refined and unobtrusive. The React API (`size`, `className`, 
+`strokeWidth`) integrates cleanly with Tailwind.
+
+**TikTok exception:** No mainstream icon library includes TikTok due to trademark
+restrictions. A minimal custom inline SVG matching Lucide's stroke style is used
+in Footer.jsx as `TikTokIcon`.
+
+### Consequences
+- All Unicode icon characters replaced with accessible Lucide components
+- `aria-hidden="true"` on all decorative icons; `aria-label` on semantic ones
+- `fill` prop used for Star component (filled vs outline based on rating value)
+- If Lucide releases a breaking change, all icons are in a small number of files
+  and easy to update in bulk
+
+---
+
+## ADR-014 · Navbar Wordmark: Two-Weight Typography over SVG Logo
+
+**Date:** 2026-03-19 (V1.3) · **Status:** Accepted — superseded when logo delivered
+
+### Context
+V1.0–V1.2 used `"Harusi."` (single word, period) in the navbar. This was
+the prototype's style and did not fully represent the brand name.
+
+### Decision
+Use a two-weight CSS wordmark: italic serif **"Harusi"** + small-caps sans
+**"Planners"** in rose/80. This is a transitional solution until the designed
+logo SVG is delivered.
+
+### Rationale
+- Communicates the full brand name ("Harusi Planners" not just "Harusi")
+- Uses the existing type system — no new assets required
+- The contrast between serif italic and sans-serif creates visual hierarchy
+- Easy to swap: the Logo Swap Guide in README.md has exact code replacement steps
+
+### Consequences
+- When logo SVG is delivered, the two-span block in Navbar.jsx and Footer.jsx
+  is replaced with `<img>` tags — a 5-minute change per the README guide
+- The period in "Harusi." was a deliberate design choice in the prototype;
+  removing it was intentional — the full brand name is more appropriate for
+  a customer-facing nav

@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
+import { MapPin, Phone, Tag, Star, X, MessageCircle } from 'lucide-react'
 import { WHATSAPP_URL } from '../utils/constants'
 
 export default function VendorModal({ vendor, onClose }) {
-  // Lock scroll & handle Escape key
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     const onKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -49,7 +49,7 @@ export default function VendorModal({ vendor, onClose }) {
             aria-label="Close vendor profile"
             className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/40 transition"
           >
-            ✕
+            <X size={16} />
           </button>
           <div className="absolute bottom-5 left-6 text-white">
             <p className="text-[10px] uppercase tracking-widest text-blush mb-1">{category}</p>
@@ -62,18 +62,25 @@ export default function VendorModal({ vendor, onClose }) {
 
           {/* Meta row */}
           <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-            <div className="flex items-center gap-3">
-              <span className="bg-ivory text-plum text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                📍 {location}
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="flex items-center gap-1.5 bg-ivory text-plum text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                <MapPin size={11} aria-hidden="true" /> {location}
               </span>
               {badge && (
-                <span className="bg-gold/15 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                  {badge}
+                <span className="flex items-center gap-1.5 bg-gold/15 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                  <Star size={11} aria-hidden="true" /> {badge}
                 </span>
               )}
             </div>
-            <span className="text-gold text-sm" aria-label={`${rating} out of 5 stars`}>
-              {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+            <span className="flex items-center gap-0.5 text-gold text-sm" aria-label={`${rating} out of 5 stars`}>
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star
+                  key={i}
+                  size={13}
+                  fill={i < rating ? 'currentColor' : 'none'}
+                  aria-hidden="true"
+                />
+              ))}
             </span>
           </div>
 
@@ -83,8 +90,11 @@ export default function VendorModal({ vendor, onClose }) {
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-5">
             {tags.map(t => (
-              <span key={t} className="bg-ivory text-plum/60 text-[11px] font-bold px-3 py-1 rounded-full border border-blush/30">
-                {t}
+              <span
+                key={t}
+                className="flex items-center gap-1.5 bg-ivory text-plum/60 text-[11px] font-bold px-3 py-1 rounded-full border border-blush/30"
+              >
+                <Tag size={10} aria-hidden="true" /> {t}
               </span>
             ))}
           </div>
@@ -105,9 +115,10 @@ export default function VendorModal({ vendor, onClose }) {
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 w-full bg-rose text-white py-4 rounded-xl font-bold text-sm hover:bg-plum transition"
+            className="flex items-center justify-center gap-2 w-full bg-rose text-white py-4 rounded-xl font-bold text-sm hover:bg-plum transition"
           >
-            💬 Enquire via WhatsApp
+            <MessageCircle size={16} aria-hidden="true" />
+            Enquire via WhatsApp
           </a>
           <p className="text-center text-[10px] text-plum/30 mt-3">
             Harusi Planners will connect you with this vendor.

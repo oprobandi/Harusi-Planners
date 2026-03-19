@@ -6,6 +6,21 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ## ✅ Shipped
 
+### V1.3
+- [x] Fix Karen Country Club image (third attempt — confirmed ID)
+- [x] Navbar wordmark: "Harusi Planners" two-weight treatment
+- [x] Logo swap guide added to README
+- [x] lucide-react installed
+- [x] Sparkles icon on Navbar CTA
+- [x] Footer social icons (Instagram, Facebook, TikTok, YouTube)
+- [x] Vendor cards — MapPin, Star (filled/outline), Tag
+- [x] Vendor modal — MapPin, Star, Tag, X, MessageCircle
+- [x] Pricing feature lists — CheckCircle2, XCircle
+- [x] Pricing comparison table — CheckCircle2, XCircle
+- [x] Pricing FAQ accordion — ChevronDown (animated)
+- [x] Pricing add-ons — contextual icon per add-on (8 icons)
+- [x] BudgetEstimator — Users, Sliders, MapPin, MessageCircle
+
 ### V1.2
 - [x] Fix 3 broken Unsplash image IDs
 - [x] Add Home tab to Navbar
@@ -34,7 +49,15 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ---
 
-## 🔴 High Priority (V1.3)
+## 🔴 High Priority (V1.4)
+
+### Logo
+- [ ] **Swap text wordmark for designed logo** — when logo SVG is delivered,
+  follow the Logo Swap Guide in README.md. Three files needed:
+  `public/logo.svg`, `public/logo-white.svg`, `public/logo-mark.svg`
+- [ ] **Update favicon** — replace with logo mark SVG in `index.html`
+
+### Backend & Data
 
 ### Backend & Data
 - [ ] **Replace src/data/*.js with CMS** — Migrate to Sanity (recommended)

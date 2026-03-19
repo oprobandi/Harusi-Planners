@@ -103,7 +103,7 @@ export const VENDORS = [
     from: 'KSh 220,000',
     rating: 5,
     badge: 'Iconic',
-    img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800',
+    img: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800',
     bio: "Nairobi's most beloved garden venue. Sweeping lawns, colonial architecture, and 80 years of wedding heritage.",
     tags: ['Garden', 'Indoor', 'Heritage'],
     phone: '254700000008',

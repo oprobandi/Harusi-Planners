@@ -1,9 +1,21 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  CheckCircle2, XCircle,
+  CalendarCheck, Plane, MailCheck, UtensilsCrossed,
+  MapPin, Film, Heart, Zap,
+  ChevronDown,
+} from 'lucide-react'
 import SEOHead from '../components/SEOHead'
 import BudgetEstimator from '../components/BudgetEstimator'
-import { PACKAGES, ADDONS, FAQS } from '../data/packages'
+import { PACKAGES, ADDONS, FAQS, ADDON_ICONS } from '../data/packages'
 import { WHATSAPP_URL } from '../utils/constants'
+
+// Map icon name strings → Lucide components
+const ICON_MAP = {
+  CalendarCheck, Plane, MailCheck, UtensilsCrossed,
+  MapPin, Film, Heart, Zap,
+}
 
 const BADGE_STYLES = {
   'Most Popular': 'bg-gold text-white',
@@ -28,47 +40,51 @@ function PackageCard({ pkg }) {
           : 'bg-ivory/50 hover:bg-white hover:shadow-lg hover:shadow-plum/5'
       }`}
     >
-      {/* Badge */}
       {badge && (
         <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest whitespace-nowrap ${BADGE_STYLES[badge] ?? 'bg-plum text-white'}`}>
           {badge}
         </div>
       )}
 
-      {/* Header */}
       <div className="mb-6 pt-2">
         <h2 className="text-3xl font-serif text-plum mb-1">{name}</h2>
         <p className="text-[10px] font-bold uppercase tracking-widest text-rose/60">{swahili}</p>
         <p className="text-[10px] font-bold uppercase tracking-widest text-plum/40 mt-1">{guests}</p>
       </div>
 
-      {/* Price */}
       <div className="mb-6 pb-6 border-b border-plum/5">
         <p className="text-4xl font-bold text-plum">{priceDisplay}</p>
         <p className="text-[10px] text-plum/30 mt-1">Excl. 16% VAT · Starting price</p>
       </div>
 
-      {/* Ideal for */}
       <div className="bg-ivory/70 rounded-xl px-4 py-3 mb-6">
         <p className="text-[10px] uppercase tracking-widest text-plum/40 mb-1">Ideal for</p>
         <p className="text-xs text-plum/70 leading-relaxed">{idealFor}</p>
       </div>
 
-      {/* Features */}
       <ul className="space-y-3 mb-6 flex-grow">
         {features.map(f => (
-          <li key={f} className="flex items-start gap-3 text-sm text-plum/70">
-            <span className="text-gold mt-0.5 shrink-0" aria-hidden="true">✓</span> {f}
+          <li key={f} className="flex items-start gap-2.5 text-sm text-plum/70">
+            <CheckCircle2
+              size={15}
+              className="text-gold shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
+            {f}
           </li>
         ))}
         {notIncluded.map(f => (
-          <li key={f} className="flex items-start gap-3 text-sm text-plum/25 line-through">
-            <span className="mt-0.5 shrink-0" aria-hidden="true">✕</span> {f}
+          <li key={f} className="flex items-start gap-2.5 text-sm text-plum/25">
+            <XCircle
+              size={15}
+              className="shrink-0 mt-0.5"
+              aria-hidden="true"
+            />
+            <span className="line-through">{f}</span>
           </li>
         ))}
       </ul>
 
-      {/* CTA */}
       <a
         href={waLink}
         target="_blank"
@@ -85,6 +101,28 @@ function PackageCard({ pkg }) {
   )
 }
 
+function AddonCard({ name, price, desc }) {
+  const iconName = ADDON_ICONS[name]
+  const Icon = iconName ? ICON_MAP[iconName] : null
+
+  return (
+    <div className="bg-ivory rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition group">
+      {Icon && (
+        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:bg-rose/5 transition">
+          <Icon size={18} className="text-rose" aria-hidden="true" />
+        </div>
+      )}
+      <div className="flex-1">
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <h3 className="font-bold text-plum text-sm">{name}</h3>
+          <p className="text-sm font-bold text-rose whitespace-nowrap">{price}</p>
+        </div>
+        <p className="text-xs text-plum/50 leading-relaxed mt-1">{desc}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function Pricing() {
   const [openFaq, setOpenFaq] = useState(null)
 
@@ -92,7 +130,7 @@ export default function Pricing() {
     <>
       <SEOHead
         title="Pricing & Packages"
-        description="Transparent wedding planning packages for every couple in Kenya and East Africa. From intimate ceremonies to luxury destination weddings — Ndogo, Asili, Kati, Kubwa, and Safari & Shores."
+        description="Transparent wedding planning packages for every couple in Kenya and East Africa. Ndogo, Asili, Kati, Kubwa, and Safari & Shores — with a free budget estimator."
         path="/pricing"
       />
 
@@ -118,31 +156,24 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* ── Package grid — 5 tiers ── */}
+      {/* ── Packages ── */}
       <section className="py-10 bg-white px-6">
         <div className="max-w-7xl mx-auto">
-          {/* Mobile: stack / Desktop: 5-col with featured scaled */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 items-start">
             {PACKAGES.map(pkg => (
               <PackageCard key={pkg.id} pkg={pkg} />
             ))}
           </div>
-
           <p className="text-center text-xs text-plum/40 mt-12 max-w-xl mx-auto leading-relaxed">
             All prices are starting rates for Nairobi. Final quotes are tailored to your date, location, guest count and scope.{' '}
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-rose hover:underline"
-            >
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-rose hover:underline">
               WhatsApp us for a custom quote.
             </a>
           </p>
         </div>
       </section>
 
-      {/* ── Comparison table (desktop) ── */}
+      {/* ── Comparison table ── */}
       <section className="py-20 bg-ivory px-6 overflow-x-auto">
         <div className="max-w-6xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">Side by Side</p>
@@ -160,26 +191,24 @@ export default function Pricing() {
             </thead>
             <tbody>
               {[
-                { label: 'Guest Capacity',           vals: ['50',  '200', '250',  'Unlimited', 'Any'] },
-                { label: 'Starting Price',            vals: ['55k', '90k', '175k', '380k',       '450k+'] },
-                { label: 'Vendor Shortlist',          vals: ['✓', '✓', '✓', '✓', '✓'] },
-                { label: 'On-Day Coordination',       vals: ['✕', '✕', '✓', '✓', '✓'] },
-                { label: 'Site Visits',               vals: ['✕', '✕', '3',  'Unlimited', 'Unlimited'] },
-                { label: 'Guest Management Portal',   vals: ['✕', '✕', '✓', '✓', '✓'] },
-                { label: 'Cultural Ceremony Support', vals: ['✕', '✓', '✕', '✕', '✓'] },
-                { label: 'Multi-Day Management',      vals: ['✕', '✕', '✕', '✓', '✓'] },
-                { label: 'International Logistics',   vals: ['✕', '✕', '✕', '✓', '✓'] },
-                { label: 'Dedicated Senior Planner',  vals: ['✕', '✕', '✕', '✓', '✓'] },
+                { label: 'Guest Capacity',           vals: ['50', '200', '250', 'Unlimited', 'Any'] },
+                { label: 'Starting Price',            vals: ['55k', '90k', '175k', '380k', '450k+'] },
+                { label: 'Vendor Shortlist',          vals: [true, true, true, true, true] },
+                { label: 'On-Day Coordination',       vals: [false, false, true, true, true] },
+                { label: 'Site Visits',               vals: [false, false, '3', 'Unlimited', 'Unlimited'] },
+                { label: 'Guest Management Portal',   vals: [false, false, true, true, true] },
+                { label: 'Cultural Ceremony Support', vals: [false, true, false, false, true] },
+                { label: 'Multi-Day Management',      vals: [false, false, false, true, true] },
+                { label: 'International Logistics',   vals: [false, false, false, true, true] },
+                { label: 'Dedicated Senior Planner',  vals: [false, false, false, true, true] },
               ].map(({ label, vals }) => (
                 <tr key={label} className="border-b border-plum/5 hover:bg-ivory/60 transition">
                   <td className="py-3.5 pr-6 text-plum/70 font-medium">{label}</td>
                   {vals.map((v, i) => (
-                    <td key={i} className={`py-3.5 px-2 text-center ${
-                      v === '✓' ? 'text-gold font-bold' :
-                      v === '✕' ? 'text-plum/20' :
-                      'text-plum font-medium'
-                    } ${PACKAGES[i].featured ? 'bg-rose/3' : ''}`}>
-                      {v}
+                    <td key={i} className="py-3.5 px-2 text-center">
+                      {v === true  ? <CheckCircle2 size={16} className="text-gold mx-auto" aria-label="Included" /> :
+                       v === false ? <XCircle size={16} className="text-plum/15 mx-auto" aria-label="Not included" /> :
+                       <span className="text-plum font-medium text-sm">{v}</span>}
                     </td>
                   ))}
                 </tr>
@@ -198,15 +227,7 @@ export default function Pricing() {
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">À La Carte</p>
           <h2 className="text-4xl font-serif text-center text-plum mb-16">Popular Add-Ons</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {ADDONS.map(({ name, price, desc }) => (
-              <div key={name} className="bg-ivory rounded-2xl p-6 flex justify-between items-start gap-6 hover:shadow-md transition">
-                <div>
-                  <h3 className="font-bold text-plum mb-1">{name}</h3>
-                  <p className="text-sm text-plum/50 leading-relaxed">{desc}</p>
-                </div>
-                <p className="text-sm font-bold text-rose whitespace-nowrap shrink-0">{price}</p>
-              </div>
-            ))}
+            {ADDONS.map(addon => <AddonCard key={addon.name} {...addon} />)}
           </div>
         </div>
       </section>
@@ -225,7 +246,11 @@ export default function Pricing() {
                   aria-expanded={openFaq === i}
                 >
                   <span className="font-bold text-plum text-sm">{q}</span>
-                  <span className={`text-rose text-xl transition-transform duration-300 shrink-0 ${openFaq === i ? 'rotate-45' : ''}`}>+</span>
+                  <ChevronDown
+                    size={18}
+                    className={`text-rose shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}
+                    aria-hidden="true"
+                  />
                 </button>
                 {openFaq === i && (
                   <div className="px-8 pb-6 text-sm text-plum/60 leading-relaxed border-t border-blush/20">
@@ -238,28 +263,18 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
+      {/* ── CTA ── */}
       <section className="bg-plum py-24 px-6 text-center">
         <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-gold/40 mb-5">Ready to Begin?</p>
-        <h2 className="text-4xl md:text-5xl font-serif text-white italic mb-6">
-          Let's Plan Your Perfect Day
-        </h2>
+        <h2 className="text-4xl md:text-5xl font-serif text-white italic mb-6">Let's Plan Your Perfect Day</h2>
         <p className="text-white/50 mb-12 max-w-md mx-auto text-sm leading-relaxed">
-          Start with our free style quiz, use the budget estimator, or just message a planner directly — we respond fast.
+          Start with our free style quiz, use the budget estimator, or just message a planner directly.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            to="/#quiz"
-            className="bg-rose text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-rose/80 transition"
-          >
+          <Link to="/#quiz" className="bg-rose text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-rose/80 transition">
             Take the Quiz ✨
           </Link>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-2 border-white text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-white hover:text-plum transition"
-          >
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="border-2 border-white text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest hover:bg-white hover:text-plum transition">
             WhatsApp a Planner
           </a>
         </div>

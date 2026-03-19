@@ -1,4 +1,4 @@
-# Harusi Planners · v1.2
+# Harusi Planners · v1.3
 
 > East Africa's most trusted wedding planning platform.
 
@@ -113,6 +113,55 @@ The `public/_redirects` file handles SPA routing automatically.
 ### Cloudflare Pages
 Build command: `npm run build` · Output directory: `dist`
 Add a redirect rule: `/* → /index.html` (200 rewrite).
+
+---
+
+## Logo Swap Guide
+
+When your designer delivers the logo, follow these steps:
+
+### 1. Add the logo file
+Place your SVG logo at:
+```
+public/logo.svg          ← main logo (plum on transparent)
+public/logo-white.svg    ← inverted version (white on transparent, for dark backgrounds)
+public/logo-mark.svg     ← icon/monogram only (for favicon, small contexts)
+```
+
+### 2. Update the Navbar wordmark
+In `src/components/Navbar.jsx`, replace the two-span wordmark block:
+```jsx
+// BEFORE — text wordmark
+<span className="text-2xl font-serif ...">Harusi</span>
+<span className="text-[11px] ...">Planners</span>
+
+// AFTER — SVG logo
+<img
+  src="/logo.svg"
+  alt="Harusi Planners"
+  className="h-8 w-auto"
+/>
+```
+
+### 3. Update the Footer
+In `src/components/Footer.jsx`, replace the text brand block with:
+```jsx
+<img src="/logo-white.svg" alt="Harusi Planners" className="h-7 w-auto mb-6" />
+```
+
+### 4. Update the favicon
+Replace `public/favicon.ico` (or add `favicon.svg`) and update `index.html`:
+```html
+<link rel="icon" type="image/svg+xml" href="/logo-mark.svg" />
+```
+
+### 5. Commit
+```bash
+git add public/ src/components/Navbar.jsx src/components/Footer.jsx index.html
+git commit -m "brand: add Harusi Planners logo (replace text wordmark)"
+git push
+```
+
 
 ---
 

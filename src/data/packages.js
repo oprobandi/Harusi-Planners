@@ -1,7 +1,6 @@
-// ─── Pricing packages data ─────────────────────────────────────────────────
+// ─── Pricing packages data ──────────────────────────────────────────────────
 // Prices reflect 2026 Kenya market rates (5–15% of total wedding budget).
-// Source analysis: janatribe.com, harusihub.com/blog, ccentricevents.co.ke
-// Updated: V1.1 — corrected underpricing from V1.0 prototype
+// Updated: V1.1 — corrected underpricing | V1.3 — icon metadata added
 
 export const PACKAGES = [
   {
@@ -134,6 +133,18 @@ export const PACKAGES = [
     idealFor: 'Diani, Lamu, Zanzibar, Maasai Mara, Nanyuki, international couples',
   },
 ]
+
+// Icon names map to lucide-react components — imported in Pricing.jsx
+export const ADDON_ICONS = {
+  'Day-Of Coordination':    'CalendarCheck',
+  'Honeymoon Planning':     'Plane',
+  'Digital RSVP Platform':  'MailCheck',
+  'Post-Wedding Brunch':    'UtensilsCrossed',
+  'Extra Site Visits':      'MapPin',
+  'Cinematic Highlight':    'Film',
+  'Traditional Ceremony':   'Heart',
+  'Rush Planning (< 3mo)':  'Zap',
+}
 
 export const ADDONS = [
   { name: 'Day-Of Coordination',   price: 'From KSh 45,000', desc: 'One dedicated planner with you from setup to last dance.' },

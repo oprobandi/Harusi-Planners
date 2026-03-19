@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Sparkles } from 'lucide-react'
 
 const navLinks = [
   { label: 'Home',           to: '/' },
@@ -10,8 +11,8 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const [scrolled,     setScrolled]     = useState(false)
-  const [menuOpen,     setMenuOpen]     = useState(false)
+  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -20,7 +21,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -43,16 +43,21 @@ export default function Navbar() {
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* Logo */}
+        {/* ── Wordmark ── */}
         <Link
           to="/"
-          className="text-2xl font-serif font-bold tracking-tighter text-plum italic hover:text-rose transition"
+          className="flex items-baseline gap-1 hover:opacity-80 transition-opacity"
           aria-label="Harusi Planners — Home"
         >
-          Harusi.
+          <span className="text-2xl font-serif font-bold tracking-tighter text-plum italic leading-none">
+            Harusi
+          </span>
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-rose/80 leading-none mb-0.5">
+            Planners
+          </span>
         </Link>
 
-        {/* Desktop links */}
+        {/* ── Desktop links ── */}
         <div className="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-bold">
           {navLinks.map(({ label, to }) =>
             to.startsWith('/#') ? (
@@ -77,12 +82,13 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* CTA + Hamburger */}
+        {/* ── CTA + Hamburger ── */}
         <div className="flex items-center gap-4">
           <button
             onClick={handleStartPlanning}
-            className="hidden md:block bg-plum text-ivory px-7 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-rose transition-colors"
+            className="hidden md:flex items-center gap-2 bg-plum text-ivory px-7 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-rose transition-colors"
           >
+            <Sparkles size={13} aria-hidden="true" />
             Start Planning
           </button>
 
@@ -100,7 +106,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile drawer overlay */}
+      {/* ── Mobile drawer ── */}
       <div
         className={`fixed inset-0 z-[100] bg-ivory flex flex-col justify-center items-center transition-all duration-500 md:hidden ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -134,8 +140,9 @@ export default function Navbar() {
           )}
           <button
             onClick={handleStartPlanning}
-            className="mt-6 bg-plum text-ivory px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-rose transition-colors"
+            className="mt-6 flex items-center gap-2 bg-plum text-ivory px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-rose transition-colors"
           >
+            <Sparkles size={15} aria-hidden="true" />
             Start Planning
           </button>
         </nav>

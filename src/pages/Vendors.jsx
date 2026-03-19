@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { MapPin, Star, Tag } from 'lucide-react'
 import SEOHead from '../components/SEOHead'
 import VendorModal from '../components/VendorModal'
 import { VENDORS, CATEGORIES } from '../data/vendors'
@@ -172,8 +173,8 @@ export default function Vendors() {
                           loading="lazy"
                         />
                         <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap">
-                          <span className="bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold uppercase text-plum">
-                            {location}
+                          <span className="flex items-center gap-1 bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold uppercase text-plum">
+                            <MapPin size={10} aria-hidden="true" />{location}
                           </span>
                           {badge && (
                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase backdrop-blur-sm ${BADGE_COLORS[badge] ?? 'bg-white/80 text-plum'}`}>
@@ -184,11 +185,15 @@ export default function Vendors() {
                       </div>
                       <div className="flex justify-between items-start mb-1">
                         <h3 className="font-bold text-plum">{name}</h3>
-                        <span className="text-gold text-xs" aria-label={`${rating} stars`}>
-                          {'★'.repeat(rating)}{'☆'.repeat(5 - rating)}
+                        <span className="flex items-center gap-0.5 text-gold" aria-label={`${rating} stars`}>
+                          {Array.from({length: 5}, (_, i) => (
+                            <Star key={i} size={12} fill={i < rating ? 'currentColor' : 'none'} aria-hidden="true" />
+                          ))}
                         </span>
                       </div>
-                      <p className="text-xs text-rose font-medium mb-1">{category}</p>
+                      <p className="flex items-center gap-1.5 text-xs text-rose font-medium mb-1">
+                        <Tag size={11} aria-hidden="true" />{category}
+                      </p>
                       <div className="flex justify-between items-center border-t border-plum/5 pt-4 mt-4">
                         <span className="text-xs text-plum/40">{from}</span>
                         <button

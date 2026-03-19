@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { Sliders, Users, MapPin, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { WHATSAPP_URL } from '../utils/constants'
 
@@ -132,20 +133,32 @@ export default function BudgetEstimator() {
 
             {/* Guest slider */}
             <div className="mb-8">
-              <Slider
-                label="Guest Count"
+              <div className="flex items-center gap-2 mb-1">
+                <Users size={14} className="text-plum/40" aria-hidden="true" />
+                <span className="text-xs font-bold uppercase tracking-widest text-plum/60">Guest Count</span>
+                <span className="ml-auto text-sm font-bold text-plum">{guests} guests</span>
+              </div>
+              <input
+                type="range"
                 min={20}
                 max={500}
                 step={10}
                 value={guests}
-                onChange={setGuests}
-                display={`${guests} guests`}
+                onChange={e => setGuests(Number(e.target.value))}
+                className="w-full accent-rose h-1.5 rounded-full cursor-pointer"
+                aria-label="Guest Count"
               />
+              <div className="flex justify-between text-[10px] text-plum/30 mt-1">
+                <span>20</span><span>500</span>
+              </div>
             </div>
 
             {/* Tier selector */}
             <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-plum/60 mb-3">Wedding Tier</p>
+              <div className="flex items-center gap-2 mb-3">
+              <Sliders size={14} className="text-plum/40" aria-hidden="true" />
+              <p className="text-xs font-bold uppercase tracking-widest text-plum/60">Wedding Tier</p>
+            </div>
               <div className="grid grid-cols-3 gap-2">
                 {tiers.map(({ id, label, sub }) => (
                   <button
@@ -167,7 +180,10 @@ export default function BudgetEstimator() {
             {/* Location toggle */}
             <div className="flex items-center justify-between p-4 bg-ivory rounded-xl">
               <div>
-                <p className="text-sm font-bold text-plum">Outside Nairobi?</p>
+                <div className="flex items-center gap-1.5">
+                  <MapPin size={14} className="text-plum/40" aria-hidden="true" />
+                  <p className="text-sm font-bold text-plum">Outside Nairobi?</p>
+                </div>
                 <p className="text-[11px] text-plum/40 mt-0.5">~25% saving on most costs</p>
               </div>
               <button
@@ -230,7 +246,8 @@ export default function BudgetEstimator() {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 w-full bg-rose text-white py-4 rounded-2xl font-bold text-sm hover:bg-plum transition"
             >
-              💬 Discuss My Budget with a Planner
+              <MessageCircle size={16} aria-hidden="true" />
+            Discuss My Budget with a Planner
             </a>
           </div>
         </div>
