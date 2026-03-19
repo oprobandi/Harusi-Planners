@@ -22,7 +22,7 @@ export const VENDORS = [
     founded:  '2016',
     social: {
       instagram: 'https://instagram.com/HarusiPlanners',
-      facebook:  'https://facebook.com/HarusiPlanners',,
+      facebook:  'https://facebook.com/HarusiPlanners',
       youtube:  'https://youtube.com/@HarusiPlanners',
       tiktok:   'https://tiktok.com/@HarusiPlanners',
     },
