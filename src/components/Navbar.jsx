@@ -12,6 +12,7 @@ const NAV_LINKS = [
 
 const ABOUT_LINKS = [
   { label: 'About Us',    to: '/about',       desc: 'Our story and mission' },
+  { label: 'Venues',      to: '/venues',      desc: 'Browse wedding venues' },
   { label: 'Vendors',     to: '/vendors',     desc: 'Browse 850+ professionals' },
   { label: 'Inspiration', to: '/inspiration', desc: 'Real East African weddings' },
   { label: 'FAQs',        to: '/faqs',        desc: 'Common questions answered' },

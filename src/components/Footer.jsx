@@ -28,7 +28,8 @@ const company = [
 
 const support = [
   { label: 'Contact',       to: '/contact' },
-  { label: 'Vendor Portal',  to: '/vendors' },
+  { label: 'Vendors',        to: '/vendors' },
+  { label: 'Venues',          to: '/venues' },
   { label: 'Privacy Policy', to: '/' },
   { label: 'FAQs',           to: '/faqs' },
 ]

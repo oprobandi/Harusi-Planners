@@ -9,6 +9,8 @@ import WhatsAppFloat from './components/WhatsAppFloat'
 const Home          = lazy(() => import('./pages/Home'))
 const Vendors       = lazy(() => import('./pages/Vendors'))
 const VendorProfile = lazy(() => import('./pages/VendorProfile'))
+const Venues        = lazy(() => import('./pages/Venues'))
+const VenueProfile  = lazy(() => import('./pages/VenueProfile'))
 const Pricing       = lazy(() => import('./pages/Pricing'))
 const Inspiration   = lazy(() => import('./pages/Inspiration'))
 const Blog          = lazy(() => import('./pages/Blog'))
@@ -43,6 +45,8 @@ export default function App() {
             <Route path="/"                  element={<Home />} />
             <Route path="/vendors"           element={<Vendors />} />
             <Route path="/vendors/:slug"     element={<VendorProfile />} />
+            <Route path="/venues"            element={<Venues />} />
+            <Route path="/venues/:slug"      element={<VenueProfile />} />
             <Route path="/pricing"           element={<Pricing />} />
             <Route path="/inspiration"       element={<Inspiration />} />
             <Route path="/blog"              element={<Blog />} />

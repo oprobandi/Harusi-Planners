@@ -2,12 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://harusi-planners.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://harusi-planners.vercel.app/vendors</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://harusi-planners.vercel.app/pricing</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://harusi-planners.vercel.app/inspiration</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://harusi-planners.vercel.app/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://harusi-planners.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://harusi-planners.vercel.app/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://harusi-planners.vercel.app/faqs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/karen-country-club</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/hemingways-nairobi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/giraffe-manor</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/trademark-hotel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/villa-rosa-kempinski</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/radisson-blu-nairobi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/fairmont-norfolk</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/leopard-beach-resort</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/diani-reef-resort</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/hemingways-watamu</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/sands-at-nomad</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/angama-mara</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/segera-retreat</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/mahali-mzuri</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/ol-pejeta-house</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/naivasha-country-club</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/tribe-hotel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://harusi-planners.vercel.app/venues/ole-sereni</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://harusi-planners.vercel.app/blog/how-to-plan-your-nairobi-wedding-in-6-months</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://harusi-planners.vercel.app/blog/vendor-spotlight-malaika-media</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://harusi-planners.vercel.app/blog/amina-and-davids-karen-garden-wedding</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

@@ -57,6 +57,17 @@ export default function Inspiration() {
         </div>
       </section>
 
+
+      {/* ── Intro ── */}
+      <section className="py-14 bg-ivory dark:bg-dark-bg border-b border-plum/5 dark:border-dark-border">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <p className="text-plum/60 dark:text-ivory/60 text-base leading-relaxed max-w-2xl mx-auto">
+            Real weddings, real couples, real East Africa. Every celebration featured here was planned by Harusi Planners — from intimate Karen garden ceremonies to multi-day Mara safari events.
+            Filter by style to find the inspiration closest to your vision.
+          </p>
+        </div>
+      </section>
+
       {/* ── Style filter ── */}
       <section className="sticky top-[60px] z-40 bg-ivory/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-plum/5 dark:border-dark-border py-4 px-6">
         <div className="max-w-6xl mx-auto flex gap-2 overflow-x-auto no-scrollbar">

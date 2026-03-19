@@ -106,6 +106,17 @@ export default function Vendors() {
         </div>
       </section>
 
+
+      {/* ── Intro ── */}
+      <section className="py-14 bg-ivory dark:bg-dark-bg border-b border-plum/5 dark:border-dark-border">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <p className="text-plum/60 dark:text-ivory/60 text-base leading-relaxed max-w-2xl mx-auto">
+            Every vendor on this platform has been personally reviewed by our team — portfolio quality, client feedback, reliability, and pricing transparency. No paid listings. No shortcuts.
+            Browse by category or search by name, location, or service type.
+          </p>
+        </div>
+      </section>
+
       {/* ── Filters ── */}
       <section className="sticky top-[60px] z-40 bg-ivory/92 dark:bg-dark-bg/92 backdrop-blur-md border-b border-plum/5 dark:border-dark-border py-4 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
