@@ -6,6 +6,15 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ## ✅ Shipped
 
+### V1.5
+- [x] Logo SVGs integrated into public/ (logo.svg, logo-white.svg, logo-mark.svg)
+- [x] SVG optimisation — DOCTYPE removed, pt units removed, bg rect removed from logo-white
+- [x] Fill colours corrected (#000000 → brand colours)
+- [x] Navbar: text wordmark → logo.svg img
+- [x] Footer: text brand → logo-white.svg img
+- [x] Favicon: updated to logo-mark.svg
+- [x] PageLoader: updated to use logo.svg
+
 ### V1.4
 - [x] Newsletter form — email regex validation (fixes accepts-any-string bug)
 - [x] Newsletter form — Mailchimp API wiring via /api/subscribe serverless fn
@@ -63,10 +72,10 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 ## 🔴 High Priority (V1.5)
 
 ### Logo
-- [ ] **Swap text wordmark for designed logo** — when logo SVG is delivered,
-  follow the Logo Swap Guide in README.md. Three files needed:
-  `public/logo.svg`, `public/logo-white.svg`, `public/logo-mark.svg`
-- [ ] **Update favicon** — replace with logo mark SVG in `index.html`
+- [x] ~~Swap text wordmark for designed logo~~ — completed in V1.5
+- [ ] **Logo re-export** — ask designer to re-export logo-white.svg from source
+  file (Figma/Illustrator). Current version had embedded background that needed
+  manual removal. Clean export = fewer post-processing steps.
 
 ### Backend & Data
 

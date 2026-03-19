@@ -46,15 +46,14 @@ export default function Navbar() {
         {/* ── Wordmark ── */}
         <Link
           to="/"
-          className="flex items-baseline gap-1 hover:opacity-80 transition-opacity"
           aria-label="Harusi Planners — Home"
+          className="hover:opacity-80 transition-opacity"
         >
-          <span className="text-2xl font-serif font-bold tracking-tighter text-plum italic leading-none">
-            Harusi
-          </span>
-          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-rose/80 leading-none mb-0.5">
-            Planners
-          </span>
+          <img
+            src="/logo.svg"
+            alt="Harusi Planners"
+            className="h-10 w-auto"
+          />
         </Link>
 
         {/* ── Desktop links ── */}

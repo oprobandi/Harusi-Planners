@@ -145,10 +145,11 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <div className="flex items-baseline gap-1 mb-6">
-            <span className="text-2xl font-serif italic gold-shimmer leading-none">Harusi</span>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold/60 leading-none mb-0.5">Planners</span>
-          </div>
+          <img
+            src="/logo-white.svg"
+            alt="Harusi Planners"
+            className="h-10 w-auto mb-6"
+          />
           <p className="text-sm text-white/40 leading-relaxed mb-8">
             Dedicated to the dreamers, the lovers, and the beautiful celebrations of East Africa.
           </p>

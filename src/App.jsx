@@ -22,9 +22,11 @@ function PageLoader() {
       aria-label="Loading page"
     >
       <div className="text-center">
-        <p className="text-2xl font-serif italic text-plum/30 animate-pulse">
-          Harusi.
-        </p>
+        <img
+          src="/logo.svg"
+          alt="Loading Harusi Planners"
+          className="h-10 w-auto opacity-20 animate-pulse"
+        />
       </div>
     </div>
   )
