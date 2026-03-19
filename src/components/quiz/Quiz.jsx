@@ -1,7 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { QUIZ_STEPS, QUIZ_RESULTS, recommendPackage } from '../../data/quiz'
 import { WHATSAPP_URL } from '../../utils/constants'
+
+const LS_KEY = 'harusi-quiz-v1'
+
+function loadSaved() {
+  try {
+    const raw = localStorage.getItem(LS_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch { return null }
+}
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
@@ -173,9 +182,17 @@ function ResultCard({ answers, onReset }) {
 export default function Quiz() {
   const total = QUIZ_STEPS.length
 
-  const [step,     setStep]     = useState(0)
-  const [answers,  setAnswers]  = useState({})
+  const saved = loadSaved()
+  const [step,     setStep]     = useState(saved?.step     ?? 0)
+  const [answers,  setAnswers]  = useState(saved?.answers  ?? {})
   const [selected, setSelected] = useState(null)
+
+  // Persist to localStorage on every step/answer change
+  useEffect(() => {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({ step, answers }))
+    } catch { /* storage full or private mode */ }
+  }, [step, answers])
 
   const isEmailStep = step === total
   const currentStep = QUIZ_STEPS[step]
@@ -201,6 +218,7 @@ export default function Quiz() {
   }
 
   const handleReset = () => {
+    try { localStorage.removeItem(LS_KEY) } catch { /* ignore */ }
     setStep(0)
     setAnswers({})
     setSelected(null)

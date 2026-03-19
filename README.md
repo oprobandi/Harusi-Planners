@@ -1,4 +1,4 @@
-# Harusi Planners · v1.1
+# Harusi Planners · v1.2
 
 > East Africa's most trusted wedding planning platform.
 
@@ -33,18 +33,20 @@ harusi-planners/
 │   │   └── constants.js  # WhatsApp number, site URL, market rates
 │   ├── components/
 │   │   ├── quiz/
-│   │   │   └── Quiz.jsx        # 5-step quiz + email capture
-│   │   ├── BudgetEstimator.jsx # Interactive cost calculator
-│   │   ├── VendorModal.jsx     # Vendor profile bottom-sheet
-│   │   ├── SEOHead.jsx         # Per-page meta via react-helmet-async
+│   │   │   └── Quiz.jsx              # 5-step quiz + email capture + localStorage
+│   │   ├── BudgetEstimator.jsx       # Interactive cost calculator
+│   │   ├── VendorModal.jsx           # Vendor profile bottom-sheet
+│   │   ├── SEOHead.jsx               # Per-page meta via react-helmet-async
+│   │   ├── TestimonialsCarousel.jsx  # Auto-advancing carousel, pure React
 │   │   ├── Navbar.jsx
 │   │   ├── Footer.jsx
 │   │   └── WhatsAppFloat.jsx
 │   ├── pages/
-│   │   ├── Home.jsx        /
-│   │   ├── Vendors.jsx     /vendors
+│   │   ├── Home.jsx        /             (carousel testimonials)
+│   │   ├── Vendors.jsx     /vendors      (pagination, 12/page)
 │   │   ├── Pricing.jsx     /pricing
-│   │   └── Inspiration.jsx /inspiration
+│   │   ├── Inspiration.jsx /inspiration
+│   │   └── NotFound.jsx    *             (branded 404)
 │   ├── App.jsx
 │   ├── main.jsx
 │   └── index.css

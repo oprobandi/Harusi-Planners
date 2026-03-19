@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
 import Quiz from '../components/quiz/Quiz'
+import TestimonialsCarousel from '../components/TestimonialsCarousel'
 import { VENDORS } from '../data/vendors'
 import { WHATSAPP_URL } from '../utils/constants'
 
@@ -17,22 +18,6 @@ const STATS = [
   { value: '12 yrs', label: 'In East Africa' },
 ]
 
-const TESTIMONIALS = [
-  {
-    quote: "Harusi made our Karen garden wedding feel effortless. Every detail was perfect — we didn't have to worry about a single thing.",
-    name:    'Amina & David K.',
-    wedding: 'Karen Country Club, March 2024',
-    img:     'https://images.unsplash.com/photo-1544161442-e3db36c4f67c?q=80&w=400',
-  },
-  {
-    quote: 'Our Mara bush wedding was beyond imagination. The team coordinated vendors we could never have found on our own.',
-    name:    'Fatuma & James M.',
-    wedding: 'Angama Mara, October 2023',
-    img:     'https://images.unsplash.com/photo-1513273111310-633750595440?q=80&w=400',
-  },
-]
-
-// Show 4 featured vendors on the homepage
 const FEATURED_VENDORS = VENDORS.filter(v => v.badge).slice(0, 4)
 
 export default function Home() {
@@ -158,27 +143,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
-      <section className="py-24 bg-ivory">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">Real Couples</p>
-          <h2 className="text-4xl font-serif text-center text-plum mb-16">Voices from the Aisle</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {TESTIMONIALS.map(({ quote, name, wedding, img }) => (
-              <div key={name} className="bg-white rounded-3xl p-8 shadow-lg shadow-plum/5 flex flex-col gap-6">
-                <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0">
-                  <img src={img} alt={`${name} wedding`} className="w-full h-full object-cover" loading="lazy" />
-                </div>
-                <div>
-                  <p className="font-serif italic text-lg text-plum/80 leading-relaxed mb-4">"{quote}"</p>
-                  <p className="font-bold text-plum text-sm">{name}</p>
-                  <p className="text-xs text-plum/40">{wedding}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── Testimonials carousel ── */}
+      <TestimonialsCarousel />
 
       {/* ── Vendor CTA ── */}
       <section className="bg-sage py-20 px-6 text-center">

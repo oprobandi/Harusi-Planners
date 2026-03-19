@@ -21,7 +21,7 @@ export const WEDDINGS = [
     style:   'Wilderness',
     date:    'October 2023',
     span:    false,
-    img:     'https://images.unsplash.com/photo-1513273111310-633750595440?q=80&w=800',
+    img:     'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=800',
     guests:  60,
     theme:   'Terracotta & Gold',
     package: 'Safari & Shores',

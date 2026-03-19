@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import SEOHead from '../components/SEOHead'
 import VendorModal from '../components/VendorModal'
 import { VENDORS, CATEGORIES } from '../data/vendors'
 import { WHATSAPP_URL } from '../utils/constants'
+
+const ITEMS_PER_PAGE = 12
 
 const BADGE_COLORS = {
   'Top Rated': 'bg-gold/20 text-gold',
@@ -12,29 +14,84 @@ const BADGE_COLORS = {
   'Luxury':    'bg-gold/20 text-gold',
 }
 
+function Pagination({ current, total, onChange }) {
+  if (total <= 1) return null
+  return (
+    <div className="flex items-center justify-center gap-2 mt-14" role="navigation" aria-label="Vendor pages">
+      <button
+        onClick={() => onChange(current - 1)}
+        disabled={current === 1}
+        aria-label="Previous page"
+        className="w-9 h-9 rounded-full border border-plum/10 flex items-center justify-center text-plum/50 hover:bg-rose hover:text-white hover:border-rose transition disabled:opacity-20 disabled:cursor-not-allowed text-sm"
+      >
+        ‹
+      </button>
+
+      {Array.from({ length: total }, (_, i) => i + 1).map(page => (
+        <button
+          key={page}
+          onClick={() => onChange(page)}
+          aria-label={`Page ${page}`}
+          aria-current={page === current ? 'page' : undefined}
+          className={`w-9 h-9 rounded-full text-xs font-bold transition ${
+            page === current
+              ? 'bg-plum text-ivory'
+              : 'border border-plum/10 text-plum/50 hover:bg-rose hover:text-white hover:border-rose'
+          }`}
+        >
+          {page}
+        </button>
+      ))}
+
+      <button
+        onClick={() => onChange(current + 1)}
+        disabled={current === total}
+        aria-label="Next page"
+        className="w-9 h-9 rounded-full border border-plum/10 flex items-center justify-center text-plum/50 hover:bg-rose hover:text-white hover:border-rose transition disabled:opacity-20 disabled:cursor-not-allowed text-sm"
+      >
+        ›
+      </button>
+    </div>
+  )
+}
+
 export default function Vendors() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [search,         setSearch]         = useState('')
+  const [currentPage,    setCurrentPage]    = useState(1)
   const [activeVendor,   setActiveVendor]   = useState(null)
 
-  const filtered = VENDORS.filter(v => {
+  const filtered = useMemo(() => VENDORS.filter(v => {
     const matchCat = activeCategory === 'All' || v.category === activeCategory
     const q = search.toLowerCase()
     const matchQ = v.name.toLowerCase().includes(q) ||
                    v.location.toLowerCase().includes(q) ||
                    v.category.toLowerCase().includes(q)
     return matchCat && matchQ
-  })
+  }), [activeCategory, search])
+
+  // Reset to page 1 whenever filter/search changes
+  const totalPages   = Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  const safeCurrentPage = Math.min(currentPage, Math.max(1, totalPages))
+  const paginated    = filtered.slice(
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
+    safeCurrentPage * ITEMS_PER_PAGE
+  )
+
+  const handleFilterChange = (value, type) => {
+    setCurrentPage(1)
+    type === 'category' ? setActiveCategory(value) : setSearch(value)
+  }
 
   return (
     <>
       <SEOHead
         title="Vendors & Venues"
-        description="Browse 850+ verified wedding vendors and venues across Kenya and East Africa. Photographers, florals, music, cakes, décor, and more — all hand-selected by Harusi Planners."
+        description="Browse 850+ verified wedding vendors and venues across Kenya and East Africa. Photographers, florals, music, cakes, décor, and more — hand-selected by Harusi Planners."
         path="/vendors"
       />
 
-      {/* ── Page hero ── */}
+      {/* ── Hero ── */}
       <section className="relative pt-40 pb-24 bg-plum overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
           <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-blush blur-3xl" />
@@ -56,7 +113,7 @@ export default function Vendors() {
             {CATEGORIES.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleFilterChange(cat, 'category')}
                 aria-pressed={activeCategory === cat}
                 className={`whitespace-nowrap px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest transition ${
                   activeCategory === cat
@@ -72,7 +129,7 @@ export default function Vendors() {
             type="search"
             placeholder="Search name, category or location…"
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => handleFilterChange(e.target.value, 'search')}
             aria-label="Search vendors"
             className="w-full sm:w-72 bg-white border border-blush/40 rounded-full px-5 py-2 text-sm outline-none focus:border-rose transition placeholder-plum/30 shrink-0"
           />
@@ -90,11 +147,20 @@ export default function Vendors() {
             </div>
           ) : (
             <>
-              <p className="text-xs text-plum/40 mb-10 uppercase tracking-widest">
-                Showing {filtered.length} vendor{filtered.length !== 1 ? 's' : ''}
-              </p>
+              {/* Count + page indicator */}
+              <div className="flex items-center justify-between mb-10">
+                <p className="text-xs text-plum/40 uppercase tracking-widest">
+                  Showing {((safeCurrentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} vendor{filtered.length !== 1 ? 's' : ''}
+                </p>
+                {totalPages > 1 && (
+                  <p className="text-xs text-plum/30 uppercase tracking-widest">
+                    Page {safeCurrentPage} of {totalPages}
+                  </p>
+                )}
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filtered.map(vendor => {
+                {paginated.map(vendor => {
                   const { id, name, category, location, from, rating, badge, img } = vendor
                   return (
                     <div key={id} className="vendor-card group">
@@ -116,7 +182,6 @@ export default function Vendors() {
                           )}
                         </div>
                       </div>
-
                       <div className="flex justify-between items-start mb-1">
                         <h3 className="font-bold text-plum">{name}</h3>
                         <span className="text-gold text-xs" aria-label={`${rating} stars`}>
@@ -124,7 +189,6 @@ export default function Vendors() {
                         </span>
                       </div>
                       <p className="text-xs text-rose font-medium mb-1">{category}</p>
-
                       <div className="flex justify-between items-center border-t border-plum/5 pt-4 mt-4">
                         <span className="text-xs text-plum/40">{from}</span>
                         <button
@@ -138,6 +202,12 @@ export default function Vendors() {
                   )
                 })}
               </div>
+
+              <Pagination
+                current={safeCurrentPage}
+                total={totalPages}
+                onChange={p => { setCurrentPage(p); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+              />
             </>
           )}
         </div>
@@ -160,7 +230,6 @@ export default function Vendors() {
         </a>
       </section>
 
-      {/* Vendor profile modal */}
       {activeVendor && (
         <VendorModal vendor={activeVendor} onClose={() => setActiveVendor(null)} />
       )}

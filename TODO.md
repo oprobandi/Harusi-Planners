@@ -1,72 +1,139 @@
 # TODO — Harusi Planners
 
-Prioritised backlog for V1.2 and beyond.
+Prioritised backlog. Items shipped in a version are removed and documented in CHANGELOG.md.
 
 ---
 
-## 🔴 High Priority (V1.2)
+## ✅ Shipped
 
-### Backend / Data
-- [ ] **Replace mock data with CMS** — All content is still in `src/data/*.js`. Migrate to Sanity (recommended for its image pipeline) or Contentful. See ADR-005.
-- [ ] **Quiz email → real submission** — Currently no-ops after form submit. Wire to Mailchimp, ConvertKit, or a serverless `/api/leads` endpoint. Add success/failure handling beyond the current optimistic UI.
-- [ ] **Newsletter footer → real submission** — Same as above; consolidate both into a single email service integration.
-- [ ] **Vendor portal** — Self-serve listing management for vendors (CRUD profile, photos, pricing, availability). Requires auth (see ADR-006).
+### V1.2
+- [x] Fix 3 broken Unsplash image IDs
+- [x] Add Home tab to Navbar
+- [x] React.lazy() + Suspense route-based code splitting
+- [x] 404 / Not Found branded page
+- [x] Testimonials swipeable carousel (pure React, no deps)
+- [x] Vendor pagination (12 per page)
+- [x] Quiz localStorage persistence (survives refresh)
 
-### Auth
-- [ ] **Couple dashboard** — After quiz capture, create lightweight user accounts so couples can return to their vendor shortlist and planning progress. Recommended stack: Supabase Auth with magic links.
+### V1.1
+- [x] src/data/ layer (packages, vendors, weddings, quiz)
+- [x] src/utils/constants.js
+- [x] 5-tier pricing (Asili + Safari & Shores added)
+- [x] Market-rate price corrections
+- [x] BudgetEstimator.jsx
+- [x] VendorModal.jsx
+- [x] SEOHead.jsx + react-helmet-async
+- [x] Quiz recommendation engine (landscape + size + budget)
+- [x] Quiz skip button
+- [x] sitemap.xml + robots.txt
+
+### V1.0
+- [x] Vite + React + Tailwind migration
+- [x] 4-page React Router SPA
+- [x] All 11 prototype bugs fixed
+
+---
+
+## 🔴 High Priority (V1.3)
+
+### Backend & Data
+- [ ] **Replace src/data/*.js with CMS** — Migrate to Sanity (recommended)
+  or Contentful. See ADR-005 for migration path.
+  - Priority order: packages.js → vendors.js → weddings.js
+- [ ] **Quiz email → real API submission** — Wire to Mailchimp or ConvertKit.
+  Currently the form submits optimistically with no actual email sent.
+- [ ] **Newsletter footer → same service** — Consolidate with quiz submission.
+- [ ] **Move VITE_WHATSAPP_NUMBER to Vercel env vars** — Currently falls back
+  to hardcoded default. Set in Vercel dashboard: Settings → Environment Variables.
+
+### Auth (required for V1.3 vendor portal)
+- [ ] **Supabase Auth** — Magic link flow (email-first, suits EA market).
+  Required before vendor portal or couple dashboard can be built.
+  See ADR-006 for full rationale and stack recommendation.
 
 ### SEO
-- [ ] **Update sitemap.xml** — Replace placeholder `https://harusihub.com` with live domain before go-live.
-- [ ] **robots.txt domain** — Same; update to live domain.
-- [ ] **Per-vendor/venue canonical URLs** — Currently vendor pages don't exist as routes. Once `/vendors/:slug` is built (see below), add them to the sitemap.
+- [ ] **Update sitemap.xml domain** — Replace `https://harusihub.com` with
+  live Vercel URL or custom domain before indexing.
+- [ ] **Google Search Console** — Submit sitemap after domain is confirmed.
+- [ ] **Vendor/venue routes for SEO** — `/vendors/:slug` pages (see below)
+  need to be in sitemap once built.
 
 ---
 
-## 🟠 Medium Priority (V1.2–V1.3)
+## 🟠 Medium Priority (V1.3–V1.4)
 
 ### UX / Features
-- [ ] **Vendor profile pages** — Individual routes `/vendors/:slug` with full photo gallery, availability indicator, service tiers, and contact form. Currently only a modal; needs a dedicated page for SEO and direct linking.
-- [ ] **Venue detail pages** — `/venues/:slug` with capacity, layout photos, Google Maps embed, and pricing ranges.
-- [ ] **Quiz results persistence** — Save answers to `localStorage` so results survive page refresh and back-navigation. One-liner: `localStorage.setItem('harusi-quiz', JSON.stringify(answers))`.
-- [ ] **Vendor pagination** — The grid renders all vendors at once. Add pagination (12 per page) or infinite scroll (Intersection Observer) before vendor count grows beyond ~30.
-- [ ] **Testimonials carousel** — Replace static 2-up grid on Home with swipeable carousel (Embla Carousel recommended — lightweight, no dependencies).
-- [ ] **Blog / editorial section** — "The Blog" link in footer has no route. Implement with CMS-backed posts (Sanity + GROQ queries).
-- [ ] **BudgetEstimator refinement** — Add catering style selector (buffet vs plated vs cocktail), ceremony type (church/civil/outdoor), and photographer hours. Each adds precision to the estimate.
+- [ ] **Vendor profile pages** — `/vendors/:slug` full page with:
+  - Photo gallery (lightbox)
+  - Services list + pricing tiers
+  - Availability indicator
+  - Contact form / WhatsApp CTA
+  - SEO: own title, OG image, canonical URL
+- [ ] **Venue detail pages** — `/venues/:slug` with capacity, photos,
+  Google Maps embed, catering options
+- [ ] **Blog / editorial** — `/blog` + `/blog/:slug`. CMS-backed (Sanity).
+  "The Blog" link in footer currently goes nowhere.
+- [ ] **Couple dashboard** — Post-quiz account creation; return to saved
+  vendor shortlist and planning checklist.
+- [ ] **BudgetEstimator refinements:**
+  - Catering style selector (buffet / plated / cocktail)
+  - Ceremony type (church / civil / outdoor / traditional)
+  - Photography hours slider
+- [ ] **Vendor search improvements:**
+  - Price range filter (slider)
+  - Sort by: Rating, Price (low–high), Newest
+  - Location radius filter (Nairobi / Coast / Rift Valley / etc.)
 
 ### Performance
-- [ ] **`React.lazy()` + `Suspense`** — Wrap each page route in lazy imports to code-split by route and reduce initial bundle size.
-- [ ] **`<picture>` with WebP** — Replace all `<img>` tags with responsive `<picture srcSet>` elements and WebP sources. Especially high-impact for the hero collage (3 images loaded eagerly).
-- [ ] **Self-host fonts** — Download and serve Cormorant Garamond + DM Sans from `public/fonts/`. Removes Google Fonts dependency and improves GDPR compliance.
-- [ ] **Core Web Vitals audit** — Run Lighthouse on staging. Hero images likely cause LCP issues; preload the centre hero image with `<link rel="preload">`.
+- [ ] **`<picture>` with WebP + srcSet** — Replace all `<img>` with
+  responsive picture elements. High impact on hero collage (3 eager loads).
+- [ ] **Preload hero centre image** — Add `<link rel="preload">` in
+  `index.html` to fix LCP on Home page.
+- [ ] **Self-host fonts** — Download Cormorant Garamond + DM Sans to
+  `public/fonts/`. Removes Google Fonts dependency, improves GDPR compliance.
+- [ ] **Lighthouse audit** — Run on Vercel prod URL, target 90+ on all
+  four metrics before V1.3 launch.
 
 ### Accessibility
-- [ ] **Focus trap in mobile nav drawer** — Keyboard users can currently tab out of the open drawer. Add a focus trap (use `focus-trap-react` or a custom hook).
-- [ ] **`aria-live` region on quiz** — Step transitions should be announced to screen readers. Add `<div aria-live="polite">` that receives the new question text on step change.
-- [ ] **Color contrast audit** — Verify `text-plum/40`, `text-white/40`, and `text-plum/30` variants meet WCAG AA (4.5:1 for normal text). Run axe-core or Stark.
-- [ ] **`prefers-reduced-motion`** — Wrap all `animation-*` and `transition` classes in `@media (prefers-reduced-motion: reduce)` in `index.css`.
-- [ ] **BudgetEstimator range input** — Native `<input type="range">` has poor screen reader support. Add a visible numeric input fallback alongside the slider.
+- [ ] **Focus trap in mobile nav drawer** — Keyboard users can tab out.
+  Use `focus-trap-react` or a custom hook.
+- [ ] **`aria-live` on quiz step transitions** — Announce new question
+  text to screen readers on each step change.
+- [ ] **Color contrast audit** — Verify `text-plum/40`, `text-white/40`,
+  `text-plum/30` pass WCAG AA (4.5:1). Run axe-core.
+- [ ] **`prefers-reduced-motion`** — Wrap carousel auto-advance and CSS
+  animations in the reduced-motion media query.
+- [ ] **BudgetEstimator range input** — Add visible numeric input fallback
+  alongside the slider for screen reader users.
 
 ---
 
-## 🟡 Low Priority / Nice to Have (V1.3+)
+## 🟡 Low Priority / Nice to Have (V1.4+)
 
-- [ ] **Dark mode** — Add Tailwind dark mode variant. The plum/gold palette adapts naturally to dark backgrounds.
-- [ ] **Swahili / English language toggle** — Full bilingual content with `react-i18next`. All Swahili copy is currently decorative; real bilingual support would serve upcountry and diaspora couples.
-- [ ] **Verified couple reviews** — Allow post-wedding couples to leave authenticated reviews on vendor profiles. Requires auth layer.
-- [ ] **Referral mechanic** — "Refer a couple, earn KSh 5,000 off your package." Trackable via referral codes.
-- [ ] **Availability calendar on vendor profiles** — Simple blocked-dates display so couples can self-qualify before enquiring.
-- [ ] **404 / Not Found page** — Branded route for unmatched paths.
-- [ ] **WhatsApp Business API** — Replace `wa.me` links with WhatsApp Business API for tracked conversions and automated follow-up sequences.
-- [ ] **Analytics** — Integrate Plausible (privacy-first, no cookie banner needed) or GA4. Track: quiz starts, quiz completions, email captures, WhatsApp clicks, package CTA clicks.
+- [ ] **Dark mode** — Tailwind `dark:` variant. Plum/gold palette adapts well.
+- [ ] **Swahili / English toggle** — `react-i18next`. All Swahili is currently
+  decorative; real bilingual support for upcountry and diaspora couples.
+- [ ] **Verified couple reviews** — Authenticated post-wedding reviews on
+  vendor profiles. Requires auth layer first.
+- [ ] **Referral mechanic** — "Refer a couple, earn KSh 5,000 off."
+  Trackable referral codes.
+- [ ] **WhatsApp Business API** — Replace `wa.me` links with Business API
+  for tracked conversions and automated follow-up sequences.
+- [ ] **Analytics** — Plausible (privacy-first, no cookie banner) or GA4.
+  Track: quiz completions, email captures, WhatsApp clicks, package CTAs.
+- [ ] **Availability calendar** on vendor profiles — Blocked-dates display.
+- [ ] **Custom domain** — Point `harusi-planners.vercel.app` to custom domain
+  in Vercel dashboard once purchased.
 
 ---
 
 ## 🛠️ Tech Debt
 
-- [ ] Create a shared `Button` component to eliminate repeated Tailwind class strings across CTAs
-- [ ] Create a shared `SectionHeader` component (`eyebrow + h2 + subline` pattern repeats on every section)
-- [ ] Add ESLint (`eslint-plugin-react`, `eslint-plugin-jsx-a11y`) + Prettier with shared config
-- [ ] Set up Vitest for unit tests — priority targets: `recommendPackage()` in `quiz.js`, form validation in Quiz and Footer
-- [ ] Add GitHub Actions CI: lint → test → build on every PR
-- [ ] Commit `package-lock.json` to lock dependency versions
-- [ ] Remove the stale `src/{components/` directory if still present after clean install
+- [ ] Shared `<Button>` component — repeated Tailwind CTA class strings
+- [ ] Shared `<SectionHeader>` component — eyebrow + h2 + subline pattern
+  repeats across every page section
+- [ ] ESLint (`eslint-plugin-react`, `eslint-plugin-jsx-a11y`) + Prettier
+- [ ] Vitest unit tests — priority: `recommendPackage()`, form validation,
+  pagination logic
+- [ ] GitHub Actions CI — lint → test → build on every PR
+- [ ] Commit `package-lock.json`

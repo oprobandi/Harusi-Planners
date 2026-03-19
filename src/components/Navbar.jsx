@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const navLinks = [
+  { label: 'Home',           to: '/' },
   { label: 'Planning Tools', to: '/#quiz' },
   { label: 'Vendors',        to: '/vendors' },
   { label: 'Inspiration',    to: '/inspiration' },

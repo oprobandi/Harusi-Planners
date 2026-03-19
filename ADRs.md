@@ -1,171 +1,206 @@
 # Architecture Decision Records (ADRs)
 
 Lightweight ADRs for **Harusi Planners**.
-Format: [MADR](https://adr.github.io/madr/) — minimal, markdown-based.
+Format: [MADR](https://adr.github.io/madr/).
 
 ---
 
 ## ADR-001 · Vite + React over Next.js or CRA
-
 **Date:** 2026-03-19 · **Status:** Accepted
 
-### Context
-Three React scaffolding options were considered: CRA, Vite + React, and Next.js.
+SPA with Vite chosen over Next.js (SSR overhead unjustified for a marketing site)
+and CRA (deprecated). Static `dist/` deploys to any CDN. SPA fallback rules
+included in `public/_redirects` (Netlify) and `vercel.json` (Vercel).
 
-### Decision
-Use **Vite + React** (SPA, client-side only).
-
-### Rationale
-| Factor | CRA | Vite | Next.js |
-|---|---|---|---|
-| Build speed | Slow (Webpack) | Fast (ESBuild) | Medium |
-| Bundle size | Large baseline | Lean | Larger (SSR runtime) |
-| SSR / SEO | ✕ | ✕ | ✓ |
-| Complexity | Low | Low | Medium–High |
-| Deployment | Any static host | Any static host | Needs Node or edge |
-
-The v1.x product is a marketing site. Next.js SSR overhead is unjustified. CRA is deprecated.
-
-### Consequences
-- Static `dist/` deploys to Netlify, Vercel, Cloudflare Pages with zero config
-- All routes require a SPA fallback rule (`_redirects` / `vercel.json`)
-- If SEO becomes critical (blog, vendor pages indexed), consider migrating to Next.js App Router
+**Upgrade trigger:** If Google Search Console reports crawl issues with
+JS-rendered meta tags, migrate to Next.js App Router.
 
 ---
 
 ## ADR-002 · Tailwind CSS v3 with Custom Config
-
 **Date:** 2026-03-19 · **Status:** Accepted
 
-### Decision
-Tailwind CSS v3 as a PostCSS plugin with all brand tokens in `tailwind.config.js`.
-
-### Rationale
-Fixes the silent class failure bug from the prototype where `bg-ivory`, `text-blush` etc. used CSS variables that were never registered in Tailwind's config. All six brand tokens (`plum`, `rose`, `blush`, `gold`, `ivory`, `sage`) are now first-class Tailwind utilities with full opacity modifier support.
+Full brand token palette (`plum`, `rose`, `blush`, `gold`, `ivory`, `sage`)
+registered in `tailwind.config.js`. Fixes the original prototype bug where
+`bg-ivory`, `text-blush` etc. silently failed against the CDN script.
+All tokens support Tailwind opacity modifiers (`bg-rose/10`, `text-plum/60`).
 
 ---
 
 ## ADR-003 · React Router v6
-
 **Date:** 2026-03-19 · **Status:** Accepted
 
-### Decision
-React Router DOM v6 with `<BrowserRouter>` and `<Routes>`.
-
-### Consequences
-- Hosting must serve `index.html` for all routes. Netlify: `_redirects` file. Vercel: `vercel.json` rewrites. Both included in `/public/`.
+`<BrowserRouter>` + `<Routes>`. `<NavLink>` used for active state.
+`useNavigate` for programmatic scroll-to-quiz. Wildcard `*` route added
+in V1.2 for 404 handling. Both `_redirects` and `vercel.json` ensure
+SPA fallback on hosting.
 
 ---
 
-## ADR-004 · Local Component State for Quiz (not Zustand/Context)
-
+## ADR-004 · Local Component State for Quiz
 **Date:** 2026-03-19 · **Status:** Accepted
 
-### Decision
-All quiz state (`step`, `answers`, `selected`) managed with `useState` inside `Quiz.jsx`.
-
-### Rationale
-Quiz is self-contained. No other component reads quiz state. Global state would be premature.
-
-### Upgrade Path
-If quiz results need to survive navigation: `localStorage.setItem('harusi-quiz', JSON.stringify(answers))` — one line. If quiz feeds a couple dashboard (V1.2+): promote to Zustand store.
+All quiz state in `useState` inside `Quiz.jsx`. No global state needed —
+quiz is self-contained. V1.2 adds `localStorage` persistence so state
+survives refresh. If quiz results need to feed a couple dashboard (V1.3+),
+promote to Zustand store at that point.
 
 ---
 
-## ADR-005 · Data Layer: `src/data/*.js` Files (not CMS, not inline)
+## ADR-005 · Data Layer: src/data/*.js Files
+**Date:** 2026-03-19 (introduced V1.1) · **Status:** Accepted — revisit V1.3
 
-**Date:** 2026-03-19 (revised V1.1) · **Status:** Accepted — to be revisited in V1.2
+All content in `src/data/packages.js`, `vendors.js`, `weddings.js`, `quiz.js`.
+Zero-dependency deployment; single edit point per data type.
 
-### Context
-V1.0 hardcoded all data inside page components. V1.1 extracts them to `src/data/` files.
+**Migration path (V1.3):** Replace exports with `fetch()` + `useSWR` calls
+against Sanity or Supabase. Consuming component import shapes won't change
+if loading/error states are handled at the data layer.
 
-### Decision
-Data lives in `src/data/packages.js`, `src/data/vendors.js`, `src/data/weddings.js`, `src/data/quiz.js`.
-
-### Rationale
-- Zero-dependency deployment — no API keys or CMS setup required to run locally or deploy
-- Data is now separated from presentation — page components import data, not own it
-- Single edit point per data type
-
-### Consequences
-- Content updates still require a code deploy
-- **Migration path (V1.2):** Replace data file exports with `fetch()` calls against Sanity or Supabase. The import shape in consuming components won't change if a loading/error state pattern is introduced at the data layer.
-
-### Recommended CMS (when ready)
-**Sanity** — optimal for image-heavy content (vendor photos, wedding galleries), GROQ query language is expressive, generous free tier, and has a React Studio UI that non-technical staff can use.
+**Recommended CMS:** Sanity — optimal image pipeline, GROQ queries,
+non-technical Studio UI, generous free tier.
 
 ---
 
 ## ADR-006 · No Authentication in V1.x
+**Date:** 2026-03-19 · **Status:** Accepted — defer to V1.3
 
-**Date:** 2026-03-19 · **Status:** Accepted
+Auth adds significant complexity. V1.x is a conversion marketing site;
+primary CTA is WhatsApp. Couple dashboard and vendor portal both require
+auth and are scoped to V1.3.
 
-### Decision
-Defer all authentication to V1.2.
-
-### Rationale
-Auth adds significant complexity (token management, protected routes, session storage). V1.x goal is a conversion-focused marketing site — primary CTA is WhatsApp contact, not account creation.
-
-### Recommended Auth Stack (V1.2)
-**Supabase Auth** — free tier, magic link support (appropriate for East African market where email-first flows outperform social auth), row-level security for vendor data, integrates cleanly with Supabase DB for the vendor portal.
+**Recommended stack:** Supabase Auth with magic links. Appropriate for
+East African market where email-first flows outperform social auth.
+Row-level security on Supabase DB for vendor data isolation.
 
 ---
 
 ## ADR-007 · Accessibility Baseline (WCAG 2.1 Level A)
+**Date:** 2026-03-19 · **Status:** Accepted (Level AA gaps in TODO)
 
-**Date:** 2026-03-19 · **Status:** Accepted (partial — Level AA gaps documented in TODO)
+**Implemented V1.0–V1.2:**
+- `alt` on all images; `aria-label` on icon-only buttons
+- `aria-expanded` on accordion + hamburger; `aria-pressed` on quiz options
+- `aria-checked` on BudgetEstimator toggle
+- `role="alert"` on form errors; `aria-hidden` on decorative elements
+- `role="progressbar"` on quiz progress; `aria-valuenow/min/max`
+- `role="tablist"` + `aria-selected` on carousel dots
+- `role="navigation"` + `aria-current="page"` on vendor pagination
+- `role="status"` + `aria-label` on Suspense page loader
+- Semantic HTML throughout; form `<label>` linked via `htmlFor/id`
 
-### What was implemented (V1.0–V1.1)
-- `alt` on all images, `aria-label` on icon-only buttons, `aria-expanded` on accordions and hamburger
-- `aria-pressed` on quiz option buttons, `aria-checked` on BudgetEstimator toggle
-- `role="alert"` on form errors, `aria-hidden` on decorative elements
-- Semantic HTML throughout (`<nav>`, `<main>`, `<footer>`, heading hierarchy)
-- Form `<label>` linked to inputs via `htmlFor/id`
-
-### Known Level AA gaps (see TODO.md)
+**Known Level AA gaps (TODO.md):**
 - Focus trap not implemented in mobile nav drawer
-- `aria-live` region missing from quiz step transitions
+- `aria-live` missing from quiz step transitions
 - Color contrast of opacity-reduced text not formally audited
-- `prefers-reduced-motion` not yet applied to animations
+- `prefers-reduced-motion` not applied to carousel or animations
 
 ---
 
 ## ADR-008 · Pricing Strategy: Market-Rate Alignment
-
 **Date:** 2026-03-19 (V1.1) · **Status:** Accepted
 
-### Context
-V1.0 pricing was derived from the original prototype without market validation. After analysis of 2026 Kenya wedding market data (harusihub.com/blog, ccentricevents.co.ke, janatribe.com), all three original packages were found to be underpriced relative to industry benchmarks of 5–15% of total wedding budget.
+All three original packages were underpriced vs. the 5–15% of total budget
+industry benchmark (source: harusihub.com/blog, ccentricevents.co.ke,
+janatribe.com).
 
-### Decision
-1. **Reprice all three original tiers** upward (Ndogo +22%, Kati +46%, Kubwa +52%)
-2. **Add Asili tier** (KSh 90,000) for the cultural/traditional wedding market — a gap explicitly unaddressed by competitors
-3. **Add Safari & Shores tier** (from KSh 450,000) for destination weddings — distinct scope requiring separate packaging
-4. **Add Budget Estimator** — interactive tool showing couples the full picture of wedding costs, positioning Harusi as transparent and trustworthy rather than just a vendor
+**Key decisions:**
+1. Reprice all tiers upward (Ndogo +22%, Kati +46%, Kubwa +52%)
+2. Add Asili tier — cultural/traditional weddings; unaddressed by competitors
+3. Add Safari & Shores tier — destination scope requires separate packaging
+4. Add BudgetEstimator — transparency as a trust and conversion mechanism
+5. "From KSh 450,000" on Safari & Shores is intentional — variable scope
+   creates natural consultation funnel via WhatsApp
 
-### Rationale for Kubwa Correction
-A couple spending KSh 3–5M on their wedding will have greater trust in a planner who charges KSh 380,000 than one who charges KSh 250,000. Price signals quality at the luxury tier. Underpricing actively undermines conversion with high-budget clients.
-
-### Consequences
-- Existing clients quoted under V1.0 pricing must be honoured at the V1.0 rate for 90 days post-launch
-- Package descriptions updated to clearly state "starting price" and "excl. 16% VAT" to prevent anchor-price confusion
-- The "from KSh 450,000" phrasing on Safari & Shores is intentional — destination scope is too variable for a flat rate
+**Kubwa rationale:** Couples spending KSh 3–5M trust a planner who charges
+KSh 380,000 more than one who charges KSh 250,000. Underpricing actively
+damages conversion at the luxury tier.
 
 ---
 
-## ADR-009 · SEO: react-helmet-async over Static Meta Tags
-
+## ADR-009 · SEO: react-helmet-async for Per-Page Meta
 **Date:** 2026-03-19 (V1.1) · **Status:** Accepted
 
-### Context
-V1.0 placed all meta tags statically in `index.html`. All four routes served identical `<title>` and `<meta description>` tags — a significant SEO regression from a multi-page experience.
+`react-helmet` is unmaintained and unsafe with React 18 concurrent rendering.
+`react-helmet-async` is the maintained successor. Each route mounts `<SEOHead>`
+with its own title, description, canonical URL, OG, and Twitter Card.
 
-### Decision
-Use `react-helmet-async` with a `<SEOHead>` component that each page mounts with its own title, description, canonical URL, Open Graph, and Twitter Card data.
+**Limitation:** Meta injected by JS — older crawlers may miss it.
+**Mitigation (V1.3):** Add pre-rendering or migrate to Next.js if Search
+Console reports crawl issues.
 
-### Rationale
-`react-helmet-async` is the maintained successor to `react-helmet`. It is safe with React 18's concurrent rendering, unlike its predecessor. Alternative (`@vite-plugin-html`) would require SSR or pre-rendering to be effective.
+---
 
-### Consequences
-- Meta tags are injected by JavaScript — bots that don't execute JS (older Googlebot crawls) may miss them
-- **V1.2 mitigation:** Add `vite-plugin-ssr` pre-rendering or migrate to Next.js if Google Search Console reports crawl issues
+## ADR-010 · Code Splitting: React.lazy() + Suspense
+**Date:** 2026-03-19 (V1.2) · **Status:** Accepted
+
+**Context:** As of V1.1, all four pages were eagerly imported in `App.jsx`,
+bundled into a single JS chunk. As pages grow (vendor profiles, blog, etc.)
+this becomes a meaningful performance regression.
+
+**Decision:** Convert all page imports to `React.lazy()`. Wrap `<Routes>`
+in `<Suspense fallback={<PageLoader />}>`.
+
+**Rationale:**
+- Each route becomes a separate Vite chunk, loaded only when visited
+- Reduces initial bundle from ~all-pages to ~shared-components + current-page
+- `PageLoader` shows a branded `Harusi.` pulse — graceful UX during chunk fetch
+- Zero API change — all route components are unchanged
+
+**Consequences:**
+- First visit to any non-home route incurs a small chunk fetch (~50–200ms on 4G)
+- Acceptable trade-off vs. larger upfront bundle
+- If chunk fetch fails (offline), React will throw — add an `ErrorBoundary`
+  wrapper in V1.3 for a graceful offline message
+
+---
+
+## ADR-011 · Testimonials: Pure React Carousel, No External Library
+**Date:** 2026-03-19 (V1.2) · **Status:** Accepted
+
+**Context:** Static 2-up testimonials grid replaced with a carousel.
+Options considered: Embla Carousel, Swiper.js, Keen Slider, pure React.
+
+**Decision:** Pure React with CSS transitions.
+
+**Rationale:**
+| Option | Bundle addition | SSR safe | Customisation |
+|--------|----------------|----------|---------------|
+| Embla  | ~7KB           | Yes      | High          |
+| Swiper | ~30KB          | Partial  | Very high     |
+| Pure React | 0KB       | Yes      | Full          |
+
+The carousel has one slide type, one transition style, and dots + arrows.
+Swiper/Embla are justified when you need touch momentum, complex slide types,
+or parallax. For this use case, 0KB overhead with full control wins.
+
+**Touch support:** Pause on `onTouchStart` / resume on `onTouchEnd`.
+Full swipe gesture (drag-to-advance) deferred to V1.3 if user research
+indicates it's needed.
+
+**Upgrade path:** If swipe gestures or complex slide layouts are required,
+replace with Embla Carousel — it's the lightest option and has a clean
+React hook API.
+
+---
+
+## ADR-012 · Vendor Pagination: Client-Side, 12 per Page
+**Date:** 2026-03-19 (V1.2) · **Status:** Accepted
+
+**Context:** All vendors rendered in a single grid — fine at 12, problematic
+at 50+.
+
+**Decision:** Client-side pagination, 12 items per page (`ITEMS_PER_PAGE`
+constant in `Vendors.jsx`).
+
+**Rationale:**
+- All vendor data is already in memory (src/data/vendors.js)
+- Server-side pagination only adds value when fetching from an API
+- `useMemo` on the filter ensures re-calculation only on dependency change
+- `ITEMS_PER_PAGE` is a named constant — trivially adjustable
+
+**Consequences:**
+- Full vendor array still loaded on page visit (fine at current scale)
+- When vendor count exceeds ~100, migrate to API + server-side pagination
+  (V1.3 CMS migration will address this — see ADR-005)
+- Scroll-to-top on page change prevents disorientation on mobile
