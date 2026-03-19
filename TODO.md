@@ -6,6 +6,17 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ## ✅ Shipped
 
+### V1.6
+- [x] Vendor profile pages — /vendors/:slug with hero, gallery, lightbox, services, sidebar
+- [x] Vendor data enriched — slug, longBio, services, gallery, social, founded (all 12 vendors)
+- [x] /vendors/:slug route in App.jsx
+- [x] View Profile links updated sitewide (Vendors.jsx, Home.jsx) — modal replaced by page
+- [x] VendorModal removed from Home.jsx
+- [x] Mailchimp double opt-in (status: pending)
+- [x] sitemap.xml — 12 vendor profile URLs added (16 total)
+- [x] README — Custom Domain Setup guide
+- [x] README — Google Search Console guide
+
 ### V1.5
 - [x] Logo SVGs integrated into public/ (logo.svg, logo-white.svg, logo-mark.svg)
 - [x] SVG optimisation — DOCTYPE removed, pt units removed, bg rect removed from logo-white
@@ -69,7 +80,14 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ---
 
-## 🔴 High Priority (V1.5)
+## 🔴 High Priority (V1.7)
+
+- [ ] **Update vendor social links** — `src/data/vendors.js` has placeholder Instagram/Facebook URLs.
+  Replace with real account URLs when available.
+- [ ] **Custom domain** — follow Custom Domain Setup guide in README when domain is purchased.
+- [ ] **Google Search Console** — submit sitemap after custom domain is live (README guide).
+- [ ] **Set Mailchimp env vars in Vercel** — required for subscribe function to work in production.
+  Vercel dashboard → Project → Settings → Environment Variables.
 
 ### Logo
 - [x] ~~Swap text wordmark for designed logo~~ — completed in V1.5
@@ -112,12 +130,7 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 ## 🟠 Medium Priority (V1.3–V1.4)
 
 ### UX / Features
-- [ ] **Vendor profile pages** — `/vendors/:slug` full page with:
-  - Photo gallery (lightbox)
-  - Services list + pricing tiers
-  - Availability indicator
-  - Contact form / WhatsApp CTA
-  - SEO: own title, OG image, canonical URL
+- [x] ~~Vendor profile pages~~ — completed V1.6
 - [ ] **Venue detail pages** — `/venues/:slug` with capacity, photos,
   Google Maps embed, catering options
 - [ ] **Blog / editorial** — `/blog` + `/blog/:slug`. CMS-backed (Sanity).

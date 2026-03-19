@@ -138,13 +138,13 @@ function ResultCard({ answers, onReset }) {
       </p>
 
       {/* Answers summary */}
-      <div className="bg-plum/5 rounded-2xl p-5 mb-8">
+      <div className="bg-plum/5 dark:bg-dark-surface rounded-2xl p-5 mb-8">
         <p className="text-[10px] uppercase tracking-widest text-rose mb-3 font-bold">Your Selections</p>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.entries(answers).filter(([, v]) => v !== null).map(([key, val]) => (
-            <div key={key} className="bg-white rounded-xl p-3">
+            <div key={key} className="bg-white dark:bg-dark-card rounded-xl p-3">
               <p className="text-[9px] uppercase tracking-wider text-plum/40 mb-0.5 capitalize">{key}</p>
-              <p className="text-xs font-bold text-plum leading-snug">{val}</p>
+              <p className="text-xs font-bold text-plum dark:text-ivory leading-snug">{val}</p>
             </div>
           ))}
         </div>
@@ -251,7 +251,7 @@ export default function Quiz() {
   }
 
   return (
-    <section id="quiz" className="py-24 bg-ivory">
+    <section id="quiz" className="py-24 bg-ivory dark:bg-dark-bg">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3">Free Planning Tool</p>
@@ -259,7 +259,7 @@ export default function Quiz() {
           {!isEmailStep && <ProgressBar step={step + 1} total={total} />}
         </div>
 
-        <div className="bg-white rounded-3xl p-8 md:p-14 shadow-2xl shadow-plum/5 relative overflow-hidden">
+        <div className="bg-white dark:bg-dark-card rounded-3xl p-8 md:p-14 shadow-2xl shadow-plum/5 relative overflow-hidden">
           {/* Decorative blob */}
           <div className="absolute top-0 right-0 w-40 h-40 bg-blush/10 rounded-full -mr-20 -mt-20 pointer-events-none" aria-hidden="true" />
 
@@ -267,7 +267,7 @@ export default function Quiz() {
             <ResultCard answers={answers} onReset={handleReset} />
           ) : (
             <div key={step} className="animate-fade-up">
-              <h3 className="text-2xl md:text-3xl font-serif text-plum mb-10 text-center">
+              <h3 className="text-2xl md:text-3xl font-serif text-plum dark:text-ivory mb-10 text-center">
                 {currentStep.question}
               </h3>
 
@@ -280,8 +280,8 @@ export default function Quiz() {
                     aria-pressed={selected === label}
                   >
                     <span className="block text-2xl mb-3" aria-hidden="true">{emoji}</span>
-                    <span className="block font-bold text-plum mb-1">{label}</span>
-                    <span className="block text-sm text-plum/50">{description}</span>
+                    <span className="block font-bold text-plum dark:text-ivory mb-1">{label}</span>
+                    <span className="block text-sm text-plum/50 dark:text-ivory/50">{description}</span>
                   </button>
                 ))}
               </div>

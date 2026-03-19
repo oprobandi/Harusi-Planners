@@ -34,7 +34,7 @@ export default function VendorModal({ vendor, onClose }) {
       />
 
       {/* Sheet */}
-      <div className="relative bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-fade-up z-10">
+      <div className="relative bg-white dark:bg-dark-card w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl animate-fade-up z-10">
 
         {/* Hero image */}
         <div className="relative h-56 sm:h-64">
@@ -85,7 +85,7 @@ export default function VendorModal({ vendor, onClose }) {
           </div>
 
           {/* Bio */}
-          <p className="text-sm text-plum/70 leading-relaxed mb-5">{bio}</p>
+          <p className="text-sm text-plum/70 dark:text-ivory/70 leading-relaxed mb-5">{bio}</p>
 
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-5">
@@ -100,12 +100,12 @@ export default function VendorModal({ vendor, onClose }) {
           </div>
 
           {/* Pricing */}
-          <div className="flex items-center justify-between py-4 border-y border-plum/5 mb-6">
+          <div className="flex items-center justify-between py-4 border-y border-plum/5 dark:border-dark-border mb-6">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-plum/40 mb-0.5">Starting from</p>
-              <p className="text-xl font-bold text-plum">{from}</p>
+              <p className="text-[10px] uppercase tracking-widest text-plum/40 dark:text-ivory/40 mb-0.5">Starting from</p>
+              <p className="text-xl font-bold text-plum dark:text-ivory">{from}</p>
             </div>
-            <p className="text-[10px] text-plum/30 max-w-[160px] text-right leading-relaxed">
+            <p className="text-[10px] text-plum/30 dark:text-ivory/30 max-w-[160px] text-right leading-relaxed">
               Final price depends on date, scope, and location.
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function VendorModal({ vendor, onClose }) {
             <MessageCircle size={16} aria-hidden="true" />
             Enquire via WhatsApp
           </a>
-          <p className="text-center text-[10px] text-plum/30 mt-3">
+          <p className="text-center text-[10px] text-plum/30 dark:text-ivory/30 mt-3">
             Harusi Planners will connect you with this vendor.
           </p>
         </div>

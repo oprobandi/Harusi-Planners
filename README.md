@@ -116,6 +116,72 @@ Add a redirect rule: `/* → /index.html` (200 rewrite).
 
 ---
 
+## Custom Domain Setup (Vercel)
+
+Point your domain to Vercel in 3 steps:
+
+### Step 1 — Add domain in Vercel
+Vercel dashboard → Project → Settings → Domains → Add `yourdomain.com` and `www.yourdomain.com`
+
+### Step 2 — Update DNS at your registrar
+Vercel will show you exact DNS records. Typically:
+
+| Type  | Name | Value |
+|-------|------|-------|
+| A     | @    | 76.76.21.21 |
+| CNAME | www  | cname.vercel-dns.com |
+
+### Step 3 — Update the codebase
+Once your domain is live, update these two files:
+
+**`src/utils/constants.js`:**
+```js
+export const SITE_URL = 'https://yourdomain.com'
+```
+
+**`public/sitemap.xml`** — replace `harusi-planners.vercel.app` with your domain
+
+**`public/robots.txt`** — same replacement
+
+Then commit and push:
+```bash
+git add .
+git commit -m "config: update SITE_URL and sitemap to custom domain"
+git push
+```
+
+---
+
+## Google Search Console Setup
+
+### Step 1 — Add property
+Go to [search.google.com/search-console](https://search.google.com/search-console)
+→ Add property → URL prefix → enter `https://yourdomain.com`
+
+### Step 2 — Verify ownership (easiest method)
+Choose **HTML tag** verification. Copy the `<meta name="google-site-verification"...>` tag.
+
+Add it to `index.html` inside `<head>`:
+```html
+<meta name="google-site-verification" content="YOUR_CODE_HERE" />
+```
+
+Commit and push, then click Verify in Search Console.
+
+### Step 3 — Submit sitemap
+Search Console → Sitemaps → Add sitemap URL:
+```
+https://yourdomain.com/sitemap.xml
+```
+
+Google will begin indexing your four pages within 1–7 days.
+
+### Step 4 — Monitor
+Check weekly for: Coverage errors, Core Web Vitals, Mobile usability issues.
+
+
+---
+
 ## Mailchimp Setup Guide
 
 Newsletter subscriptions and quiz email captures both POST to `/api/subscribe`,

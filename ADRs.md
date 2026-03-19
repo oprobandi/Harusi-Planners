@@ -312,3 +312,51 @@ Subscribers are tagged by source for audience segmentation:
 
 This allows Mailchimp automations to treat quiz leads differently
 (e.g. send vendor shortlist email) vs. newsletter subscribers (send weekly inspiration).
+
+---
+
+## ADR-016 · Vendor Profile Pages: Dedicated Route over Modal Expansion
+
+**Date:** 2026-03-19 (V1.6) · **Status:** Accepted
+
+### Context
+V1.1–V1.5 used a `VendorModal` bottom-sheet for vendor details. This had three problems:
+1. No unique URL — unshareable, not indexable by Google
+2. Limited space — couldn't fit full bio, gallery, and service pricing comfortably
+3. Poor mobile UX — modal scroll inside full-screen modal is awkward
+
+### Decision
+Replace modal with **dedicated route** `/vendors/:slug` + `VendorProfile.jsx` page.
+
+### Rationale
+- Every vendor now has a unique, shareable URL
+- Each page has its own `SEOHead` — Google can index 12 vendor profiles independently
+- Full layout: hero image, lightbox gallery, long bio, service packages, sticky sidebar
+- Mobile sticky CTA bar solves the "CTA out of view" problem on small screens
+- `VendorModal` retained only in `Vendors.jsx` context — removed from Home entirely
+
+### Consequences
+- `VendorModal` component kept in codebase for potential future use (quick-preview use case)
+- Vendor data required enrichment: `slug`, `longBio`, `services`, `gallery`, `social`, `founded`
+- Sitemap updated with all 12 vendor URLs — they are now crawlable
+- Social links (`social.instagram`, `social.facebook`) are placeholder URLs —
+  must be updated in `src/data/vendors.js` when real accounts are provided
+
+---
+
+## ADR-017 · Mailchimp Double Opt-In
+
+**Date:** 2026-03-19 (V1.6) · **Status:** Accepted
+
+### Decision
+Change Mailchimp subscription `status` from `'subscribed'` to `'pending'`.
+
+### Rationale
+- **List hygiene** — only real, actively confirmed email addresses join the list
+- **GDPR compliance** — explicit confirmation is the EU standard; best practice globally
+- **Deliverability** — confirmed lists have higher open rates and lower bounce/spam rates
+- **Kenya context** — not legally required, but protects against fake email entries
+
+### Consequence
+Subscribers receive a Mailchimp-branded confirmation email before appearing in the audience.
+The confirmation email copy can be customised in Mailchimp: Audience → Signup forms → Confirmation thank you page.

@@ -10,7 +10,7 @@ export default function NotFound() {
         path="/404"
       />
 
-      <section className="min-h-screen bg-ivory flex items-center justify-center px-6">
+      <section className="min-h-screen bg-ivory dark:bg-dark-bg flex items-center justify-center px-6">
         {/* Decorative blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blush/20 rounded-full blur-3xl" />
@@ -19,7 +19,7 @@ export default function NotFound() {
 
         <div className="relative text-center max-w-xl">
           {/* Large decorative number */}
-          <p className="text-[160px] md:text-[220px] font-serif font-bold leading-none text-plum/5 select-none">
+          <p className="text-[160px] md:text-[220px] font-serif font-bold leading-none text-plum/5 dark:text-ivory/5 select-none">
             404
           </p>
 
@@ -28,10 +28,10 @@ export default function NotFound() {
             <p className="text-[10px] uppercase tracking-[0.4em] font-bold text-rose/60 mb-4">
               Lost in Translation
             </p>
-            <h1 className="text-4xl md:text-5xl font-serif italic text-plum mb-5 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-serif italic text-plum dark:text-ivory mb-5 leading-tight">
               This page doesn't exist.
             </h1>
-            <p className="text-plum/50 text-base mb-10 leading-relaxed max-w-sm mx-auto">
+            <p className="text-plum/50 dark:text-ivory/50 text-base mb-10 leading-relaxed max-w-sm mx-auto">
               The page you're looking for has wandered off. Let's get you back to planning the perfect day.
             </p>
 

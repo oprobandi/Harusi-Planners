@@ -43,7 +43,7 @@ export default function Inspiration() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative pt-40 pb-24 overflow-hidden" style={{ background: '#F9E5EC' }}>
+      <section className="relative pt-40 pb-24 overflow-hidden" style={{ background: 'var(--inspiration-bg, #F9E5EC)' }}>
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-rose/10 rounded-full blur-3xl" />
           <div className="absolute top-10 right-10 w-48 h-48 bg-gold/10 rounded-full blur-2xl" />
@@ -58,7 +58,7 @@ export default function Inspiration() {
       </section>
 
       {/* ── Style filter ── */}
-      <section className="sticky top-[60px] z-40 bg-ivory/90 backdrop-blur-md border-b border-plum/5 py-4 px-6">
+      <section className="sticky top-[60px] z-40 bg-ivory/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-plum/5 dark:border-dark-border py-4 px-6">
         <div className="max-w-6xl mx-auto flex gap-2 overflow-x-auto no-scrollbar">
           {WEDDING_STYLES.map(style => (
             <button
@@ -78,7 +78,7 @@ export default function Inspiration() {
       </section>
 
       {/* ── Masonry grid ── */}
-      <section className="py-16 px-6" style={{ background: '#F9E5EC' }}>
+      <section className="py-16 px-6" style={{ background: 'var(--inspiration-bg, #F9E5EC)' }}>
         <div className="max-w-6xl mx-auto">
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-plum/40">
@@ -112,8 +112,8 @@ export default function Inspiration() {
 
       {/* ── Submit story ── */}
       <section className="py-20 bg-ivory px-6 text-center">
-        <h2 className="text-4xl font-serif text-plum mb-5">Share Your Harusi Story</h2>
-        <p className="text-plum/50 mb-10 max-w-md mx-auto text-sm leading-relaxed">
+        <h2 className="text-4xl font-serif text-plum dark:text-ivory mb-5">Share Your Harusi Story</h2>
+        <p className="text-plum/50 dark:text-ivory/50 mb-10 max-w-md mx-auto text-sm leading-relaxed">
           Did you plan your wedding with us? We'd love to feature your celebration.
         </p>
         <a

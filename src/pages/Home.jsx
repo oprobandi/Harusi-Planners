@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
 import SEOHead from '../components/SEOHead'
 import Quiz from '../components/quiz/Quiz'
-import VendorModal from '../components/VendorModal'
 import TestimonialsCarousel from '../components/TestimonialsCarousel'
 import { VENDORS } from '../data/vendors'
 import { WHATSAPP_URL } from '../utils/constants'
@@ -23,8 +21,6 @@ const STATS = [
 const FEATURED_VENDORS = VENDORS.filter(v => v.badge).slice(0, 4)
 
 export default function Home() {
-  const [activeVendor, setActiveVendor] = useState(null)
-
   return (
     <>
       <SEOHead path="/" />
@@ -83,7 +79,7 @@ export default function Home() {
       </section>
 
       {/* ── Stats bar ── */}
-      <section className="bg-plum py-10 px-6">
+      <section className="bg-plum dark:bg-dark-surface py-10 px-6">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-10 md:gap-20">
           {STATS.map(({ value, label }) => (
             <div key={label} className="text-center">
@@ -98,13 +94,13 @@ export default function Home() {
       <Quiz />
 
       {/* ── Featured vendors ── */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white dark:bg-dark-bg">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3">Hand-Selected Professionals</p>
-              <h2 className="text-4xl font-serif text-plum">The Vendor Selection</h2>
-              <p className="text-plum/50 max-w-md italic mt-3">
+              <h2 className="text-4xl font-serif text-plum dark:text-ivory">The Vendor Selection</h2>
+              <p className="text-plum/50 dark:text-ivory/50 max-w-md italic mt-3">
                 Professionals who truly understand the art of celebration.
               </p>
             </div>
@@ -131,18 +127,18 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-bold text-plum">{name}</h3>
+                  <h3 className="font-bold text-plum dark:text-ivory">{name}</h3>
                   <span className="text-gold text-xs" aria-label={`${rating} stars`}>{'★'.repeat(rating)}</span>
                 </div>
                 <p className="text-xs text-rose font-medium mb-4">{category}</p>
-                <div className="flex justify-between items-center border-t border-plum/5 pt-4">
-                  <span className="text-xs text-plum/40">{from}</span>
-                  <button
-                    onClick={() => setActiveVendor(FEATURED_VENDORS.find(v => v.name === name) ?? null)}
-                    className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum transition cursor-pointer"
+                <div className="flex justify-between items-center border-t border-plum/5 dark:border-dark-border pt-4">
+                  <span className="text-xs text-plum/40 dark:text-ivory/40">{from}</span>
+                  <Link
+                    to={`/vendors/${FEATURED_VENDORS.find(v => v.name === name)?.slug ?? ''}`}
+                    className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum transition"
                   >
                     View Profile ⟶
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -154,7 +150,7 @@ export default function Home() {
       <TestimonialsCarousel />
 
       {/* ── Vendor CTA ── */}
-      <section className="bg-sage py-20 px-6 text-center">
+      <section className="bg-sage dark:bg-dark-surface py-20 px-6 text-center">
         <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/40 mb-4">For Professionals</p>
         <h2 className="text-3xl md:text-4xl font-serif text-white mb-5">Are You a Wedding Vendor?</h2>
         <p className="text-white/60 mb-10 text-sm max-w-lg mx-auto leading-relaxed">
@@ -169,10 +165,6 @@ export default function Home() {
           Join as a Vendor — Free Listing ⟶
         </a>
       </section>
-      {/* Vendor modal */}
-      {activeVendor && (
-        <VendorModal vendor={activeVendor} onClose={() => setActiveVendor(null)} />
-      )}
     </>
   )
 }

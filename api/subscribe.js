@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         email_address: email.trim().toLowerCase(),
-        status:        'subscribed',         // 'pending' for double opt-in
+        status:        'pending',             // double opt-in — subscriber confirms via email
         merge_fields: {
           FNAME: firstName,
           LNAME: lastName,

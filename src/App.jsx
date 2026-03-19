@@ -6,28 +6,17 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppFloat from './components/WhatsAppFloat'
 
-// ── Route-based code splitting ─────────────────────────────────────────────
-const Home        = lazy(() => import('./pages/Home'))
-const Vendors     = lazy(() => import('./pages/Vendors'))
-const Pricing     = lazy(() => import('./pages/Pricing'))
-const Inspiration = lazy(() => import('./pages/Inspiration'))
-const NotFound    = lazy(() => import('./pages/NotFound'))
+const Home          = lazy(() => import('./pages/Home'))
+const Vendors       = lazy(() => import('./pages/Vendors'))
+const VendorProfile = lazy(() => import('./pages/VendorProfile'))
+const Pricing       = lazy(() => import('./pages/Pricing'))
+const Inspiration   = lazy(() => import('./pages/Inspiration'))
+const NotFound      = lazy(() => import('./pages/NotFound'))
 
-// ── Page loading fallback ──────────────────────────────────────────────────
 function PageLoader() {
   return (
-    <div
-      className="min-h-screen bg-ivory flex items-center justify-center"
-      role="status"
-      aria-label="Loading page"
-    >
-      <div className="text-center">
-        <img
-          src="/logo.svg"
-          alt="Loading Harusi Planners"
-          className="h-10 w-auto opacity-20 animate-pulse"
-        />
-      </div>
+    <div className="min-h-screen bg-ivory flex items-center justify-center" role="status" aria-label="Loading">
+      <img src="/logo.svg" alt="Loading Harusi Planners" className="h-10 w-auto opacity-20 animate-pulse" />
     </div>
   )
 }
@@ -46,11 +35,12 @@ export default function App() {
       <main>
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/"            element={<Home />} />
-            <Route path="/vendors"     element={<Vendors />} />
-            <Route path="/pricing"     element={<Pricing />} />
-            <Route path="/inspiration" element={<Inspiration />} />
-            <Route path="*"            element={<NotFound />} />
+            <Route path="/"                  element={<Home />} />
+            <Route path="/vendors"           element={<Vendors />} />
+            <Route path="/vendors/:slug"     element={<VendorProfile />} />
+            <Route path="/pricing"           element={<Pricing />} />
+            <Route path="/inspiration"       element={<Inspiration />} />
+            <Route path="*"                  element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

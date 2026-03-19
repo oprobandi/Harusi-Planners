@@ -103,7 +103,7 @@ function NewsletterForm() {
           value={email}
           onChange={e => { setEmail(e.target.value); setStatus('idle'); setMessage('') }}
           disabled={status === 'loading'}
-          className="bg-transparent text-sm w-full outline-none text-white placeholder-white/30 disabled:opacity-50"
+          className="bg-transparent text-sm w-full outline-none text-white dark:text-ivory placeholder-white/30 disabled:opacity-50"
         />
         <button
           type="submit"
@@ -133,10 +133,10 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="bg-plum pt-28 pb-12 px-6 md:px-10 text-white relative overflow-hidden">
+    <footer className="bg-plum dark:bg-dark-bg pt-28 pb-12 px-6 md:px-10 text-white relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none -translate-y-px">
         <svg viewBox="0 0 1200 80" preserveAspectRatio="none"
-          className="w-full h-12 md:h-16 fill-ivory" aria-hidden="true">
+          className="w-full h-12 md:h-16 fill-ivory dark:fill-dark-bg" aria-hidden="true">
           <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113,2,1200,0V0Z" />
         </svg>
       </div>

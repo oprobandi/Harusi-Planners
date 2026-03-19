@@ -115,7 +115,7 @@ export default function BudgetEstimator() {
   const maxBar = Math.max(...breakdownItems.map(i => i.value))
 
   return (
-    <section className="py-24 bg-ivory" id="estimator">
+    <section className="py-24 bg-ivory dark:bg-dark-bg" id="estimator">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3">Free Planning Tool</p>
@@ -128,8 +128,8 @@ export default function BudgetEstimator() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
           {/* ── Left: Controls ── */}
-          <div className="bg-white rounded-3xl p-8 shadow-lg shadow-plum/5">
-            <h3 className="text-lg font-bold text-plum mb-8">Your Wedding Details</h3>
+          <div className="bg-white dark:bg-dark-card rounded-3xl p-8 shadow-lg shadow-plum/5 [&>*]:dark:text-ivory">
+            <h3 className="text-lg font-bold text-plum dark:text-ivory mb-8">Your Wedding Details</h3>
 
             {/* Guest slider */}
             <div className="mb-8">
@@ -164,14 +164,14 @@ export default function BudgetEstimator() {
                   <button
                     key={id}
                     onClick={() => setTier(id)}
-                    className={`rounded-xl p-3 text-left transition-all border-2 ${
+                    className={`rounded-xl p-3 text-left transition-all border-2 dark:bg-dark-surface ${
                       tier === id
                         ? 'border-rose bg-rose/5'
                         : 'border-transparent bg-ivory hover:border-blush/60'
                     }`}
                   >
                     <span className="block text-xs font-bold text-plum">{label}</span>
-                    <span className="block text-[10px] text-plum/40 mt-0.5 leading-tight">{sub}</span>
+                    <span className="block text-[10px] text-plum/40 dark:text-ivory/40 mt-0.5 leading-tight">{sub}</span>
                   </button>
                 ))}
               </div>
@@ -232,7 +232,7 @@ export default function BudgetEstimator() {
             </div>
 
             {/* Breakdown bars */}
-            <div className="bg-white rounded-3xl p-8 shadow-lg shadow-plum/5">
+            <div className="bg-white dark:bg-dark-card rounded-3xl p-8 shadow-lg shadow-plum/5 [&>*]:dark:text-ivory">
               <h3 className="text-sm font-bold text-plum mb-6 uppercase tracking-widest">Cost Breakdown</h3>
               {breakdownItems.map(item => (
                 <Bar key={item.label} {...item} max={maxBar} />

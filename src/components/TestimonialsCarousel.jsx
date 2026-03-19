@@ -82,12 +82,12 @@ export default function TestimonialsCarousel() {
   const t = TESTIMONIALS[current]
 
   return (
-    <section className="py-24 bg-ivory overflow-hidden">
+    <section className="py-24 bg-ivory dark:bg-dark-bg overflow-hidden">
       <div className="max-w-4xl mx-auto px-6">
         <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">
           Real Couples
         </p>
-        <h2 className="text-4xl font-serif text-center text-plum mb-16">
+        <h2 className="text-4xl font-serif text-center text-plum dark:text-ivory mb-16">
           Voices from the Aisle
         </h2>
 
@@ -134,15 +134,15 @@ export default function TestimonialsCarousel() {
                 <p className="text-gold text-sm mb-4" aria-label="5 out of 5 stars">★★★★★</p>
 
                 {/* Quote */}
-                <blockquote className="font-serif italic text-xl md:text-2xl text-plum/80 leading-relaxed mb-6">
+                <blockquote className="font-serif italic text-xl md:text-2xl text-plum/80 dark:text-ivory/80 leading-relaxed mb-6">
                   "{t.quote}"
                 </blockquote>
 
                 {/* Attribution */}
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div>
-                    <p className="font-bold text-plum text-sm">{t.name}</p>
-                    <p className="text-xs text-plum/40 mt-0.5">{t.wedding}</p>
+                    <p className="font-bold text-plum dark:text-ivory text-sm">{t.name}</p>
+                    <p className="text-xs text-plum/40 dark:text-ivory/40 mt-0.5">{t.wedding}</p>
                   </div>
                   <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${PACKAGE_COLORS[t.package] ?? 'bg-ivory text-plum'}`}>
                     {t.package}

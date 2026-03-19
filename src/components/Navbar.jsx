@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Sparkles } from 'lucide-react'
+import ThemeToggle from './ThemeToggle'
 
 const navLinks = [
   { label: 'Home',           to: '/' },
@@ -38,32 +39,31 @@ export default function Navbar() {
     <>
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${
-          scrolled ? 'nav-glass shadow-sm border-b border-plum/5 py-3' : 'bg-transparent py-5'
+          scrolled
+            ? 'nav-glass shadow-sm border-b border-plum/5 dark:border-white/5 py-3'
+            : 'bg-transparent py-5'
         } px-6 md:px-10 flex justify-between items-center`}
         role="navigation"
         aria-label="Main navigation"
       >
-        {/* ── Wordmark ── */}
+        {/* Logo */}
         <Link
           to="/"
           aria-label="Harusi Planners — Home"
           className="hover:opacity-80 transition-opacity"
         >
-          <img
-            src="/logo.svg"
-            alt="Harusi Planners"
-            className="h-10 w-auto"
-          />
+          <img src="/logo.svg"       alt="Harusi Planners" className="h-10 w-auto dark:hidden" />
+          <img src="/logo-white.svg" alt="Harusi Planners" className="h-10 w-auto hidden dark:block" />
         </Link>
 
-        {/* ── Desktop links ── */}
+        {/* Desktop links */}
         <div className="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-bold">
           {navLinks.map(({ label, to }) =>
             to.startsWith('/#') ? (
               <button
                 key={label}
                 onClick={handleStartPlanning}
-                className="hover:text-rose transition text-plum"
+                className="hover:text-rose dark:hover:text-gold transition text-plum dark:text-ivory/70"
               >
                 {label}
               </button>
@@ -72,7 +72,11 @@ export default function Navbar() {
                 key={label}
                 to={to}
                 className={({ isActive }) =>
-                  `transition ${isActive ? 'text-rose border-b border-rose pb-0.5' : 'text-plum hover:text-rose'}`
+                  `transition ${
+                    isActive
+                      ? 'text-rose dark:text-gold border-b border-rose dark:border-gold pb-0.5'
+                      : 'text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold'
+                  }`
                 }
               >
                 {label}
@@ -81,11 +85,13 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* ── CTA + Hamburger ── */}
-        <div className="flex items-center gap-4">
+        {/* Right side: Theme toggle + CTA + Hamburger */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+
           <button
             onClick={handleStartPlanning}
-            className="hidden md:flex items-center gap-2 bg-plum text-ivory px-7 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-rose transition-colors"
+            className="hidden md:flex items-center gap-2 bg-plum dark:bg-gold text-ivory dark:text-plum px-7 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-rose dark:hover:bg-gold/80 transition-colors"
           >
             <Sparkles size={13} aria-hidden="true" />
             Start Planning
@@ -98,16 +104,16 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(v => !v)}
           >
-            <span className={`block w-6 h-0.5 bg-plum transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-plum transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-plum transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-plum dark:bg-ivory transition-all duration-300 origin-center ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-plum dark:bg-ivory transition-all duration-300 ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-plum dark:bg-ivory transition-all duration-300 origin-center ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
         </div>
       </nav>
 
-      {/* ── Mobile drawer ── */}
+      {/* Mobile drawer */}
       <div
-        className={`fixed inset-0 z-[100] bg-ivory flex flex-col justify-center items-center transition-all duration-500 md:hidden ${
+        className={`fixed inset-0 z-[100] bg-ivory dark:bg-dark-bg flex flex-col justify-center items-center transition-all duration-500 md:hidden ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         aria-hidden={!menuOpen}
@@ -118,7 +124,7 @@ export default function Navbar() {
               <button
                 key={label}
                 onClick={handleStartPlanning}
-                className="text-3xl font-serif italic text-plum hover:text-rose transition"
+                className="text-3xl font-serif italic text-plum dark:text-ivory hover:text-rose dark:hover:text-gold transition"
                 style={{ transitionDelay: `${i * 60}ms` }}
               >
                 {label}
@@ -128,7 +134,11 @@ export default function Navbar() {
                 key={label}
                 to={to}
                 className={({ isActive }) =>
-                  `text-3xl font-serif italic transition ${isActive ? 'text-rose' : 'text-plum hover:text-rose'}`
+                  `text-3xl font-serif italic transition ${
+                    isActive
+                      ? 'text-rose dark:text-gold'
+                      : 'text-plum dark:text-ivory hover:text-rose dark:hover:text-gold'
+                  }`
                 }
                 onClick={() => setMenuOpen(false)}
                 style={{ transitionDelay: `${i * 60}ms` }}
@@ -139,7 +149,7 @@ export default function Navbar() {
           )}
           <button
             onClick={handleStartPlanning}
-            className="mt-6 flex items-center gap-2 bg-plum text-ivory px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-rose transition-colors"
+            className="mt-6 flex items-center gap-2 bg-plum dark:bg-gold text-ivory dark:text-plum px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-rose dark:hover:bg-gold/80 transition-colors"
           >
             <Sparkles size={15} aria-hidden="true" />
             Start Planning

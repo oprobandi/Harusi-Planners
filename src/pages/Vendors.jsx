@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { MapPin, Star, Tag } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead'
-import VendorModal from '../components/VendorModal'
 import { VENDORS, CATEGORIES } from '../data/vendors'
 import { WHATSAPP_URL } from '../utils/constants'
 
@@ -60,7 +60,6 @@ export default function Vendors() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [search,         setSearch]         = useState('')
   const [currentPage,    setCurrentPage]    = useState(1)
-  const [activeVendor,   setActiveVendor]   = useState(null)
 
   const filtered = useMemo(() => VENDORS.filter(v => {
     const matchCat = activeCategory === 'All' || v.category === activeCategory
@@ -93,7 +92,7 @@ export default function Vendors() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative pt-40 pb-24 bg-plum overflow-hidden">
+      <section className="relative pt-40 pb-24 bg-plum dark:bg-dark-surface overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
           <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-blush blur-3xl" />
           <div className="absolute bottom-0 right-20 w-80 h-80 rounded-full bg-gold blur-3xl" />
@@ -108,7 +107,7 @@ export default function Vendors() {
       </section>
 
       {/* ── Filters ── */}
-      <section className="sticky top-[60px] z-40 bg-ivory/92 backdrop-blur-md border-b border-plum/5 py-4 px-6">
+      <section className="sticky top-[60px] z-40 bg-ivory/92 dark:bg-dark-bg/92 backdrop-blur-md border-b border-plum/5 dark:border-dark-border py-4 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
           <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 w-full sm:w-auto">
             {CATEGORIES.map(cat => (
@@ -118,8 +117,8 @@ export default function Vendors() {
                 aria-pressed={activeCategory === cat}
                 className={`whitespace-nowrap px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest transition ${
                   activeCategory === cat
-                    ? 'bg-plum text-ivory'
-                    : 'bg-white text-plum/60 hover:text-plum hover:bg-white/80'
+                    ? 'bg-plum dark:bg-gold text-ivory dark:text-plum'
+                    : 'bg-white dark:bg-dark-card text-plum/60 dark:text-ivory/60 hover:text-plum dark:hover:text-ivory hover:bg-white/80'
                 }`}
               >
                 {cat}
@@ -132,13 +131,13 @@ export default function Vendors() {
             value={search}
             onChange={e => handleFilterChange(e.target.value, 'search')}
             aria-label="Search vendors"
-            className="w-full sm:w-72 bg-white border border-blush/40 rounded-full px-5 py-2 text-sm outline-none focus:border-rose transition placeholder-plum/30 shrink-0"
+            className="w-full sm:w-72 bg-white dark:bg-dark-card border border-blush/40 dark:border-dark-border rounded-full px-5 py-2 text-sm outline-none focus:border-rose transition placeholder-plum/30 dark:placeholder-ivory/30 text-plum dark:text-ivory shrink-0"
           />
         </div>
       </section>
 
       {/* ── Grid ── */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-dark-bg">
         <div className="max-w-6xl mx-auto px-6">
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-plum/40">
@@ -150,7 +149,7 @@ export default function Vendors() {
             <>
               {/* Count + page indicator */}
               <div className="flex items-center justify-between mb-10">
-                <p className="text-xs text-plum/40 uppercase tracking-widest">
+                <p className="text-xs text-plum/40 dark:text-ivory/40 uppercase tracking-widest">
                   Showing {((safeCurrentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} vendor{filtered.length !== 1 ? 's' : ''}
                 </p>
                 {totalPages > 1 && (
@@ -184,7 +183,7 @@ export default function Vendors() {
                         </div>
                       </div>
                       <div className="flex justify-between items-start mb-1">
-                        <h3 className="font-bold text-plum">{name}</h3>
+                        <h3 className="font-bold text-plum dark:text-ivory">{name}</h3>
                         <span className="flex items-center gap-0.5 text-gold" aria-label={`${rating} stars`}>
                           {Array.from({length: 5}, (_, i) => (
                             <Star key={i} size={12} fill={i < rating ? 'currentColor' : 'none'} aria-hidden="true" />
@@ -194,14 +193,14 @@ export default function Vendors() {
                       <p className="flex items-center gap-1.5 text-xs text-rose font-medium mb-1">
                         <Tag size={11} aria-hidden="true" />{category}
                       </p>
-                      <div className="flex justify-between items-center border-t border-plum/5 pt-4 mt-4">
-                        <span className="text-xs text-plum/40">{from}</span>
-                        <button
-                          onClick={() => setActiveVendor(vendor)}
-                          className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum transition cursor-pointer"
+                      <div className="flex justify-between items-center border-t border-plum/5 dark:border-dark-border pt-4 mt-4">
+                        <span className="text-xs text-plum/40 dark:text-ivory/40">{from}</span>
+                        <Link
+                          to={`/vendors/${vendor.slug}`}
+                          className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum dark:hover:text-gold transition"
                         >
                           View Profile ⟶
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   )
@@ -219,7 +218,7 @@ export default function Vendors() {
       </section>
 
       {/* ── Vendor CTA ── */}
-      <section className="bg-sage py-20 px-6 text-center">
+      <section className="bg-sage dark:bg-dark-surface py-20 px-6 text-center">
         <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/40 mb-4">For Professionals</p>
         <h2 className="text-3xl font-serif text-white mb-4">List Your Business — It's Free</h2>
         <p className="text-white/60 mb-10 text-sm max-w-md mx-auto leading-relaxed">
@@ -235,9 +234,6 @@ export default function Vendors() {
         </a>
       </section>
 
-      {activeVendor && (
-        <VendorModal vendor={activeVendor} onClose={() => setActiveVendor(null)} />
-      )}
     </>
   )
 }

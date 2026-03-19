@@ -36,8 +36,8 @@ function PackageCard({ pkg }) {
     <div
       className={`relative p-8 md:p-10 rounded-3xl border-2 flex flex-col transition-all duration-300 ${accentColor} ${
         featured
-          ? 'bg-white shadow-2xl shadow-gold/10 md:scale-[1.04] md:z-10'
-          : 'bg-ivory/50 hover:bg-white hover:shadow-lg hover:shadow-plum/5'
+          ? 'bg-white dark:bg-dark-card shadow-2xl shadow-gold/10 md:scale-[1.04] md:z-10'
+          : 'bg-ivory/50 dark:bg-dark-surface hover:bg-white dark:hover:bg-dark-card hover:shadow-lg hover:shadow-plum/5'
       }`}
     >
       {badge && (
@@ -47,19 +47,19 @@ function PackageCard({ pkg }) {
       )}
 
       <div className="mb-6 pt-2">
-        <h2 className="text-3xl font-serif text-plum mb-1">{name}</h2>
+        <h2 className="text-3xl font-serif text-plum dark:text-ivory mb-1">{name}</h2>
         <p className="text-[10px] font-bold uppercase tracking-widest text-rose/60">{swahili}</p>
         <p className="text-[10px] font-bold uppercase tracking-widest text-plum/40 mt-1">{guests}</p>
       </div>
 
       <div className="mb-6 pb-6 border-b border-plum/5">
-        <p className="text-4xl font-bold text-plum">{priceDisplay}</p>
-        <p className="text-[10px] text-plum/30 mt-1">Excl. 16% VAT · Starting price</p>
+        <p className="text-4xl font-bold text-plum dark:text-gold">{priceDisplay}</p>
+        <p className="text-[10px] text-plum/30 dark:text-ivory/30 mt-1">Excl. 16% VAT · Starting price</p>
       </div>
 
-      <div className="bg-ivory/70 rounded-xl px-4 py-3 mb-6">
-        <p className="text-[10px] uppercase tracking-widest text-plum/40 mb-1">Ideal for</p>
-        <p className="text-xs text-plum/70 leading-relaxed">{idealFor}</p>
+      <div className="bg-ivory/70 dark:bg-dark-bg rounded-xl px-4 py-3 mb-6">
+        <p className="text-[10px] uppercase tracking-widest text-plum/40 dark:text-ivory/40 mb-1">Ideal for</p>
+        <p className="text-xs text-plum/70 dark:text-ivory/60 leading-relaxed">{idealFor}</p>
       </div>
 
       <ul className="space-y-3 mb-6 flex-grow">
@@ -106,18 +106,18 @@ function AddonCard({ name, price, desc }) {
   const Icon = iconName ? ICON_MAP[iconName] : null
 
   return (
-    <div className="bg-ivory rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition group">
+    <div className="bg-ivory dark:bg-dark-card rounded-2xl p-6 flex items-start gap-4 hover:shadow-md transition group">
       {Icon && (
-        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm group-hover:bg-rose/5 transition">
+        <div className="w-10 h-10 rounded-xl bg-white dark:bg-dark-surface flex items-center justify-center shrink-0 shadow-sm group-hover:bg-rose/5 transition">
           <Icon size={18} className="text-rose" aria-hidden="true" />
         </div>
       )}
       <div className="flex-1">
         <div className="flex items-start justify-between gap-3 flex-wrap">
-          <h3 className="font-bold text-plum text-sm">{name}</h3>
+          <h3 className="font-bold text-plum dark:text-ivory text-sm">{name}</h3>
           <p className="text-sm font-bold text-rose whitespace-nowrap">{price}</p>
         </div>
-        <p className="text-xs text-plum/50 leading-relaxed mt-1">{desc}</p>
+        <p className="text-xs text-plum/50 dark:text-ivory/50 leading-relaxed mt-1">{desc}</p>
       </div>
     </div>
   )
@@ -135,7 +135,7 @@ export default function Pricing() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative pt-40 pb-28 bg-ivory overflow-hidden">
+      <section className="relative pt-40 pb-28 bg-ivory dark:bg-dark-bg overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blush/20 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-gold/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4" />
@@ -157,7 +157,7 @@ export default function Pricing() {
       </section>
 
       {/* ── Packages ── */}
-      <section className="py-10 bg-white px-6">
+      <section className="py-10 bg-white dark:bg-dark-bg px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6 items-start">
             {PACKAGES.map(pkg => (
@@ -174,7 +174,7 @@ export default function Pricing() {
       </section>
 
       {/* ── Comparison table ── */}
-      <section className="py-20 bg-ivory px-6 overflow-x-auto">
+      <section className="py-20 bg-ivory dark:bg-dark-bg px-6 overflow-x-auto">
         <div className="max-w-6xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">Side by Side</p>
           <h2 className="text-3xl font-serif text-center text-plum mb-12">What's Included</h2>
@@ -222,7 +222,7 @@ export default function Pricing() {
       <BudgetEstimator />
 
       {/* ── Add-ons ── */}
-      <section className="py-20 bg-white px-6">
+      <section className="py-20 bg-white dark:bg-dark-bg px-6">
         <div className="max-w-4xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">À La Carte</p>
           <h2 className="text-4xl font-serif text-center text-plum mb-16">Popular Add-Ons</h2>
@@ -233,19 +233,19 @@ export default function Pricing() {
       </section>
 
       {/* ── FAQ ── */}
-      <section className="py-20 bg-ivory px-6">
+      <section className="py-20 bg-ivory dark:bg-dark-bg px-6">
         <div className="max-w-3xl mx-auto">
           <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-3 text-center">Got Questions?</p>
           <h2 className="text-4xl font-serif text-center text-plum mb-16">Frequently Asked</h2>
           <div className="space-y-4">
             {FAQS.map(({ q, a }, i) => (
-              <div key={i} className="border border-blush/30 rounded-2xl overflow-hidden bg-white">
+              <div key={i} className="border border-blush/30 dark:border-dark-border rounded-2xl overflow-hidden bg-white dark:bg-dark-card">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full text-left px-8 py-6 flex justify-between items-center gap-4 hover:bg-ivory/50 transition"
                   aria-expanded={openFaq === i}
                 >
-                  <span className="font-bold text-plum text-sm">{q}</span>
+                  <span className="font-bold text-plum dark:text-ivory text-sm">{q}</span>
                   <ChevronDown
                     size={18}
                     className={`text-rose shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}
@@ -253,7 +253,7 @@ export default function Pricing() {
                   />
                 </button>
                 {openFaq === i && (
-                  <div className="px-8 pb-6 text-sm text-plum/60 leading-relaxed border-t border-blush/20">
+                  <div className="px-8 pb-6 text-sm text-plum/60 dark:text-ivory/60 leading-relaxed border-t border-blush/20 dark:border-dark-border">
                     <p className="pt-4">{a}</p>
                   </div>
                 )}

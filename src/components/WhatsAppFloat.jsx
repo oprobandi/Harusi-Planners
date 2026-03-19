@@ -5,7 +5,7 @@ export default function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with a Harusi planner on WhatsApp"
-      className="fixed bottom-7 right-7 bg-rose text-white p-4 rounded-full shadow-2xl flex items-center gap-0 group z-[90] transition-all hover:scale-110 hover:shadow-rose/40"
+      className="fixed bottom-7 right-7 bg-rose dark:bg-rose text-white p-4 rounded-full shadow-2xl flex items-center gap-0 group z-[90] transition-all hover:scale-110 hover:shadow-rose/40"
     >
       {/* Expanding label */}
       <span className="max-w-0 overflow-hidden group-hover:max-w-[180px] transition-all duration-500 whitespace-nowrap text-xs font-bold uppercase tracking-widest">

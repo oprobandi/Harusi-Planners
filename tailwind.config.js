@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -10,6 +11,13 @@ export default {
         gold:  { DEFAULT: '#C9A84C', light: '#dfc270' },
         ivory: { DEFAULT: '#F5F0E8', dark: '#ede6d8' },
         sage:  { DEFAULT: '#2D4739', light: '#3d5e4c' },
+        // Dark mode surface colours
+        dark:  {
+          bg:      '#0f0810',
+          surface: '#1a0d1a',
+          card:    '#221222',
+          border:  '#2d1a2d',
+        },
       },
       fontFamily: {
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],

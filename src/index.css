@@ -21,6 +21,17 @@
     background-color: #F5F0E8;
     color: #4A0E2E;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* ── Dark mode body ── */
+  .dark body {
+    background-color: #0f0810;
+    color: #F5F0E8;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 }
 
@@ -30,6 +41,9 @@
     background: rgba(245, 240, 232, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+  .dark .nav-glass {
+    background: rgba(15, 8, 16, 0.92);
   }
 
   /* Quiz card hover */
@@ -45,6 +59,10 @@
     border-color: #A0266A;
     background-color: rgba(160, 38, 106, 0.06);
     box-shadow: 0 0 28px rgba(244, 167, 185, 0.45);
+  }
+  .dark .quiz-option:hover,
+  .dark .quiz-option.selected {
+    background-color: rgba(160, 38, 106, 0.12);
   }
 
   /* Masonry grid */
@@ -68,7 +86,7 @@
     transform: scale(1.05);
   }
 
-  /* Opacity animation initial state */
+  /* Animation initial states */
   .animate-fade-up,
   .animate-fade-up-d1,
   .animate-fade-up-d2,
@@ -76,7 +94,7 @@
     opacity: 0;
   }
 
-  /* Gold shimmer text */
+  /* Gold shimmer */
   .gold-shimmer {
     background: linear-gradient(90deg, #C9A84C 25%, #f0d68c 50%, #C9A84C 75%);
     background-size: 200% auto;
@@ -84,5 +102,10 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shimmer 3s linear infinite;
+  }
+
+  /* Dark mode card/surface helpers */
+  .dark-card {
+    @apply dark:bg-dark-card dark:border-dark-border;
   }
 }
