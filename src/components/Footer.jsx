@@ -22,7 +22,7 @@ const SOCIAL = [
 const company = [
   { label: 'About Us',      to: '/' },
   { label: 'Real Weddings', to: '/inspiration' },
-  { label: 'The Blog',      to: '/' },
+  { label: 'The Blog', to: '/blog' },
   { label: 'Pricing',       to: '/pricing' },
 ]
 
@@ -145,11 +145,8 @@ export default function Footer() {
 
         {/* Brand */}
         <div>
-          <img
-            src="/logo-white.svg"
-            alt="Harusi Planners"
-            className="h-10 w-auto mb-6"
-          />
+          <img src="/logo.svg"       alt="Harusi Planners" className="h-10 w-auto mb-6 dark:hidden" />
+          <img src="/logo-white.svg" alt="Harusi Planners" className="h-10 w-auto mb-6 hidden dark:block" />
           <p className="text-sm text-white/40 leading-relaxed mb-8">
             Dedicated to the dreamers, the lovers, and the beautiful celebrations of East Africa.
           </p>

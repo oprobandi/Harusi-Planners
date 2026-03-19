@@ -11,6 +11,8 @@ const Vendors       = lazy(() => import('./pages/Vendors'))
 const VendorProfile = lazy(() => import('./pages/VendorProfile'))
 const Pricing       = lazy(() => import('./pages/Pricing'))
 const Inspiration   = lazy(() => import('./pages/Inspiration'))
+const Blog          = lazy(() => import('./pages/Blog'))
+const BlogPost      = lazy(() => import('./pages/BlogPost'))
 const NotFound      = lazy(() => import('./pages/NotFound'))
 
 function PageLoader() {
@@ -40,6 +42,8 @@ export default function App() {
             <Route path="/vendors/:slug"     element={<VendorProfile />} />
             <Route path="/pricing"           element={<Pricing />} />
             <Route path="/inspiration"       element={<Inspiration />} />
+            <Route path="/blog"              element={<Blog />} />
+            <Route path="/blog/:slug"        element={<BlogPost />} />
             <Route path="*"                  element={<NotFound />} />
           </Routes>
         </Suspense>

@@ -43,7 +43,7 @@ export default function Inspiration() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative pt-40 pb-24 overflow-hidden" style={{ background: 'var(--inspiration-bg, #F9E5EC)' }}>
+      <section className="relative pt-40 pb-24 overflow-hidden bg-[#F9E5EC] dark:bg-dark-bg">
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-rose/10 rounded-full blur-3xl" />
           <div className="absolute top-10 right-10 w-48 h-48 bg-gold/10 rounded-full blur-2xl" />
@@ -78,7 +78,7 @@ export default function Inspiration() {
       </section>
 
       {/* ── Masonry grid ── */}
-      <section className="py-16 px-6" style={{ background: 'var(--inspiration-bg, #F9E5EC)' }}>
+      <section className="py-16 px-6 bg-[#F9E5EC] dark:bg-dark-bg">
         <div className="max-w-6xl mx-auto">
           {filtered.length === 0 ? (
             <div className="text-center py-24 text-plum/40">
