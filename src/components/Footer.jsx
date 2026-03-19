@@ -20,17 +20,17 @@ const SOCIAL = [
 ]
 
 const company = [
-  { label: 'About Us',      to: '/' },
+  { label: 'About Us',      to: '/about' },
   { label: 'Real Weddings', to: '/inspiration' },
-  { label: 'The Blog', to: '/blog' },
+  { label: 'The Blog',      to: '/blog' },
   { label: 'Pricing',       to: '/pricing' },
 ]
 
 const support = [
-  { label: 'Contact Us',     to: '/' },
+  { label: 'Contact',       to: '/contact' },
   { label: 'Vendor Portal',  to: '/vendors' },
   { label: 'Privacy Policy', to: '/' },
-  { label: 'FAQs',           to: '/' },
+  { label: 'FAQs',           to: '/faqs' },
 ]
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

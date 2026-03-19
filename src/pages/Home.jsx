@@ -146,6 +146,49 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* ── About teaser ── */}
+      <section className="py-24 bg-ivory dark:bg-dark-bg">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <div className="rounded-3xl overflow-hidden shadow-xl shadow-plum/10">
+                <img
+                  src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1200"
+                  alt="Harusi Planners — East African wedding planning"
+                  className="w-full h-80 object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="absolute -bottom-5 -right-5 bg-gold rounded-2xl px-5 py-4 shadow-lg">
+                <p className="text-2xl font-serif font-bold text-plum">2,400+</p>
+                <p className="text-[10px] uppercase tracking-widest text-plum/60 mt-0.5">Couples served</p>
+              </div>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-rose/60 mb-4">
+                Who We Are
+              </p>
+              <h2 className="text-4xl font-serif text-plum dark:text-ivory mb-6">
+                East Africa's Most Trusted Wedding Platform.
+              </h2>
+              <p className="text-plum/70 dark:text-ivory/70 leading-relaxed mb-5">
+                Harusi Planners was built by Nairobians, for East Africa. We combine a vetted vendor network, transparent pricing, and experienced planners into one platform — so you can plan the wedding you deserve without the guesswork.
+              </p>
+              <p className="text-plum/60 dark:text-ivory/60 leading-relaxed mb-8 text-sm italic">
+                <em>Harusi</em> — Swahili for wedding. This platform belongs to East Africa.
+              </p>
+              <Link
+                to="/about"
+                className="inline-block text-sm font-bold uppercase tracking-widest text-rose border-b border-rose pb-1 hover:text-plum hover:border-plum transition"
+              >
+                Our Story ⟶
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Testimonials carousel ── */}
       <TestimonialsCarousel />
 

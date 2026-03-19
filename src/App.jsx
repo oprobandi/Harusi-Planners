@@ -13,6 +13,9 @@ const Pricing       = lazy(() => import('./pages/Pricing'))
 const Inspiration   = lazy(() => import('./pages/Inspiration'))
 const Blog          = lazy(() => import('./pages/Blog'))
 const BlogPost      = lazy(() => import('./pages/BlogPost'))
+const About         = lazy(() => import('./pages/About'))
+const Contact       = lazy(() => import('./pages/Contact'))
+const FAQs          = lazy(() => import('./pages/FAQs'))
 const NotFound      = lazy(() => import('./pages/NotFound'))
 
 function PageLoader() {
@@ -44,6 +47,9 @@ export default function App() {
             <Route path="/inspiration"       element={<Inspiration />} />
             <Route path="/blog"              element={<Blog />} />
             <Route path="/blog/:slug"        element={<BlogPost />} />
+            <Route path="/about"             element={<About />} />
+            <Route path="/contact"           element={<Contact />} />
+            <Route path="/faqs"              element={<FAQs />} />
             <Route path="*"                  element={<NotFound />} />
           </Routes>
         </Suspense>
