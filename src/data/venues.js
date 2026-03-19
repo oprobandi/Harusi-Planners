@@ -573,7 +573,7 @@ export const VENUES = [
     capacity: 300,
     rating:   4,
     badge:    null,
-    img:      'https://images.unsplash.com/photo-1415301722433-1e18338de34d?q=80&w=800',
+    img:      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800',
     bio:      'The only hotel in Africa bordering a national park. Nairobi National Park as your ceremony backdrop.',
     longBio:  "Ole Sereni Hotel's claim to uniqueness is undeniable: it is the only hotel in Africa that borders a national park. The rooftop and pool terrace look directly into Nairobi National Park, where lions, giraffes, and buffalo roam against a backdrop of the Nairobi skyline. Wedding ceremonies on the rooftop are unlike anything available anywhere else — wildness and urbanity in perfect, surreal juxtaposition. The hotel's events team is professional, experienced, and creative.",
     catering: 'In-house available',
@@ -589,7 +589,7 @@ export const VENUES = [
       { name: 'Full Day Package',   price: 'From KSh 160,000', desc: 'Rooftop ceremony + indoor reception, up to 300 guests.' },
     ],
     gallery: [
-      'https://images.unsplash.com/photo-1415301722433-1e18338de34d?q=80&w=800',
+      'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800',
       'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=800',
       'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=800',
     ],

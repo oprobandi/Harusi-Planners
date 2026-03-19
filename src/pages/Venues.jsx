@@ -127,7 +127,7 @@ export default function Venues() {
                 {filtered.map(venue => {
                   const { slug, name, category, location, from, capacity, rating, badge, img } = venue
                   return (
-                    <div key={slug} className="group cursor-pointer">
+                    <Link key={slug} to={`/venues/${slug}`} className="group block">
                       <div className="relative h-64 rounded-2xl overflow-hidden mb-5">
                         <img
                           src={img}
@@ -162,14 +162,11 @@ export default function Venues() {
                       </p>
                       <div className="flex justify-between items-center border-t border-plum/5 dark:border-dark-border pt-4">
                         <span className="text-xs text-plum/40 dark:text-ivory/40">{from}</span>
-                        <Link
-                          to={`/venues/${slug}`}
-                          className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum dark:hover:text-gold transition"
-                        >
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-rose group-hover:text-plum dark:group-hover:text-gold transition">
                           View Venue ⟶
-                        </Link>
+                        </span>
                       </div>
-                    </div>
+                    </Link>
                   )
                 })}
               </div>

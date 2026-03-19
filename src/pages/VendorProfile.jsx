@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import {
   MapPin, Star, Tag, MessageCircle,
   Instagram, Facebook, ArrowLeft, CheckCircle2,
@@ -51,9 +51,8 @@ function Lightbox({ images, startIndex, onClose }) {
 
 // ── Main page ──────────────────────────────────────────────────────────────
 export default function VendorProfile() {
-  const { slug }   = useParams()
-  const navigate   = useNavigate()
-  const vendor     = VENDORS.find(v => v.slug === slug)
+  const { slug } = useParams()
+  const vendor   = VENDORS.find(v => v.slug === slug)
   const [lightboxIndex, setLightboxIndex] = useState(null)
 
   if (!vendor) {
@@ -92,10 +91,12 @@ export default function VendorProfile() {
       <section className="relative h-[55vh] min-h-[360px] overflow-hidden">
         <img src={img} alt={`${name} — ${category}`} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-plum/90 via-plum/40 to-transparent" />
-        <button onClick={() => navigate(-1)}
-          className="absolute top-24 left-6 md:left-10 flex items-center gap-2 text-white/70 hover:text-white transition text-xs font-bold uppercase tracking-widest">
+        <Link
+          to="/vendors"
+          className="absolute top-24 left-6 md:left-10 flex items-center gap-2 text-white/70 hover:text-white transition text-xs font-bold uppercase tracking-widest"
+        >
           <ArrowLeft size={14} aria-hidden="true" /> All Vendors
-        </button>
+        </Link>
         <div className="absolute bottom-8 left-6 md:left-10 right-6 md:right-10">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

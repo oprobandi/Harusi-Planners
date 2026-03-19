@@ -70,10 +70,9 @@ export default function Vendors() {
     return matchCat && matchQ
   }), [activeCategory, search])
 
-  // Reset to page 1 whenever filter/search changes
-  const totalPages   = Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  const totalPages      = Math.ceil(filtered.length / ITEMS_PER_PAGE)
   const safeCurrentPage = Math.min(currentPage, Math.max(1, totalPages))
-  const paginated    = filtered.slice(
+  const paginated       = filtered.slice(
     (safeCurrentPage - 1) * ITEMS_PER_PAGE,
     safeCurrentPage * ITEMS_PER_PAGE
   )
@@ -105,7 +104,6 @@ export default function Vendors() {
           </p>
         </div>
       </section>
-
 
       {/* ── Intro ── */}
       <section className="py-14 bg-ivory dark:bg-dark-bg border-b border-plum/5 dark:border-dark-border">
@@ -158,7 +156,6 @@ export default function Vendors() {
             </div>
           ) : (
             <>
-              {/* Count + page indicator */}
               <div className="flex items-center justify-between mb-10">
                 <p className="text-xs text-plum/40 dark:text-ivory/40 uppercase tracking-widest">
                   Showing {((safeCurrentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} vendor{filtered.length !== 1 ? 's' : ''}
@@ -172,14 +169,14 @@ export default function Vendors() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {paginated.map(vendor => {
-                  const { id, name, category, location, from, rating, badge, img } = vendor
+                  const { id, slug, name, category, location, from, rating, badge, img } = vendor
                   return (
-                    <div key={id} className="vendor-card group">
+                    <Link key={id} to={`/vendors/${slug}`} className="group block">
                       <div className="relative h-64 rounded-2xl overflow-hidden mb-5">
                         <img
                           src={img}
                           alt={`${name} — ${category} in ${location}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           loading="lazy"
                         />
                         <div className="absolute bottom-4 left-4 flex gap-2 flex-wrap">
@@ -206,14 +203,11 @@ export default function Vendors() {
                       </p>
                       <div className="flex justify-between items-center border-t border-plum/5 dark:border-dark-border pt-4 mt-4">
                         <span className="text-xs text-plum/40 dark:text-ivory/40">{from}</span>
-                        <Link
-                          to={`/vendors/${vendor.slug}`}
-                          className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum dark:hover:text-gold transition"
-                        >
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-rose group-hover:text-plum dark:group-hover:text-gold transition">
                           View Profile ⟶
-                        </Link>
+                        </span>
                       </div>
-                    </div>
+                    </Link>
                   )
                 })}
               </div>
@@ -244,7 +238,6 @@ export default function Vendors() {
           Apply as a Vendor ⟶
         </a>
       </section>
-
     </>
   )
 }
