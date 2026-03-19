@@ -5,54 +5,111 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [1.0.0] — 2026-03-19 · Initial Release
+## [1.1.0] — 2026-03-19 · Pricing Overhaul & Architecture Refactor
 
 ### 🏗️ Architecture
-- Bootstrapped with **Vite + React 18** (migrated from standalone HTML file)
-- **React Router v6** with four discrete page routes
-- **Tailwind CSS v3** with full custom design token config (replaces CDN script approach)
-- PostCSS + Autoprefixer pipeline for production builds
+- Introduced `src/data/` layer — all content extracted from page components into dedicated data files:
+  - `src/data/packages.js` — pricing tiers, add-ons, FAQs
+  - `src/data/vendors.js` — vendor listings with full profile data
+  - `src/data/weddings.js` — real weddings gallery data
+  - `src/data/quiz.js` — quiz steps, recommendation engine, result profiles
+- Introduced `src/utils/constants.js` — single source of truth for WhatsApp number, site URL, OG image, and market rate constants
+- Added `react-helmet-async` for per-page SEO head management
 
-### ✅ Bug Fixes (from original HTML prototype)
+### 💰 Pricing Overhaul (Critical)
+Prices corrected against 2026 Kenya market data (planners charge 5–15% of total wedding budget).
 
+| Package | V1.0 Price   | V1.1 Price   | Rationale |
+|---------|-------------|-------------|-----------|
+| Ndogo   | KSh 45,000  | KSh 55,000  | Minor uplift; still accessible |
+| Kati    | KSh 120,000 | KSh 175,000 | Mid-range weddings now KSh 500k–2M |
+| Kubwa   | KSh 250,000 | KSh 380,000 | Luxury weddings KSh 3M–5M+; severe underpricing corrected |
+
+### ✨ New in V1.1
+
+**Asili Package (New Tier)**
+- Cultural/traditional wedding tier: KSh 90,000 · Up to 200 guests
+- Features: cultural vendor sourcing, family liaison, dowry logistics, multi-ceremony scheduling
+- Addresses ruracio, nikah, and church+cultural combo weddings
+
+**Safari & Shores Package (New Tier)**
+- Destination wedding tier: From KSh 450,000 · Any guest count · Multi-day
+- Covers Diani, Lamu, Zanzibar, Maasai Mara, and international destinations
+
+**Budget Estimator (BudgetEstimator.jsx)**
+- Guest count slider (20–500), venue tier selector, Outside Nairobi toggle
+- Real-time cost estimate using 2026 Kenya market data
+- Live breakdown bar chart across 7 cost categories
+- Auto-suggests matching Harusi package with planner fee + VAT preview
+- WhatsApp CTA pre-populates message with calculated total
+
+**Vendor Profile Modal (VendorModal.jsx)**
+- "View Profile" now opens a full modal with bio, tags, pricing, and WhatsApp enquiry CTA
+- Escape key + backdrop dismiss; scroll lock while open
+
+**Comparison Table**
+- 10-row feature comparison table on Pricing page spanning all 5 packages
+
+**Per-Page SEO (SEOHead.jsx)**
+- Each route sets its own title, meta description, canonical URL, OG, and Twitter Card tags
+- Powered by react-helmet-async
+
+**Quiz Intelligence**
+- Recommendation engine now factors landscape + size + budget
+- Cultural Heritage → Asili; Coastal/Wilderness → Safari & Shores
+- Skip button added to every step
+
+**VAT Transparency**
+- All prices labelled "Excl. 16% VAT · Starting price"
+- BudgetEstimator shows planner fee + VAT as separate line items
+- FAQ: "Do prices include VAT?" added
+
+**Outside Nairobi Callout**
+- Pricing hero surfaces upcountry savings
+- BudgetEstimator toggle applies 25% location discount in real time
+
+**New Add-Ons**
+- Traditional Ceremony support: From KSh 35,000
+- Rush Planning (under 3 months): From KSh 25,000
+
+### 🗂️ SEO & Crawlability
+- `public/sitemap.xml` added with all four routes
+- `public/robots.txt` pointing to sitemap
+
+### 🔧 Bug Fixes
+- Removed orphaned `src/{components/` directory from V1.0 scaffolding error
+- WhatsApp URL now sourced from `WHATSAPP_URL` constant throughout
+
+### 📝 Add-On Repricing
+| Add-On                 | V1.0         | V1.1         |
+|------------------------|-------------|-------------|
+| Day-Of Coordination    | From KSh 30k | From KSh 45k |
+| Honeymoon Planning     | From KSh 15k | From KSh 20k |
+| Post-Wedding Brunch    | From KSh 25k | From KSh 30k |
+| Extra Site Visits      | KSh 5,000    | KSh 6,000    |
+| Cinematic Highlight    | From KSh 50k | From KSh 55k |
+
+---
+
+## [1.0.0] — 2026-03-19 · Initial Release
+
+### Bug Fixes from HTML prototype
 | # | Bug | Fix |
 |---|-----|-----|
-| 1 | `</nav>` used as footer closing tag | Replaced with correct `</footer>` in `Footer.jsx` |
-| 2 | Tailwind custom colors (`bg-ivory`, `text-blush`, `bg-sage`, etc.) not resolving | Added complete `tailwind.config.js` extending the color palette |
-| 3 | Quiz was fully static — no JS, no state, no step progression | Rebuilt as fully functional 5-step `Quiz.jsx` component with React state |
-| 4 | Vendor category tabs had no click handlers | Implemented `useState`-based filter in `Vendors.jsx` |
-| 5 | No mobile navigation | Added animated hamburger drawer with full-screen overlay in `Navbar.jsx` |
-| 6 | All `<img>` tags missing `alt` attributes | Added descriptive `alt` text to every image sitewide |
-| 7 | No lazy loading on below-fold images | Added `loading="lazy"` to all non-hero images |
-| 8 | Wrong WhatsApp SVG (generic message bubble) | Replaced with official WhatsApp brand SVG path in `WhatsAppFloat.jsx` |
-| 9 | Copyright year hardcoded as `2024` | Replaced with `new Date().getFullYear()` |
-| 10 | No SEO meta tags | Added `<meta name="description">` and Open Graph tags to `index.html` |
-| 11 | Newsletter form had no validation | Added email regex validation + `required` in `Footer.jsx` |
-
-### ✨ New Features
-- **Multi-step quiz** (5 steps) with answer state management, back navigation, and results
-- **Email capture** at end of quiz with name + email validation and personalised result card
-- **Filterable vendor grid** with category tabs + live search input
-- **Filterable inspiration masonry** with wedding style filter
-- **FAQ accordion** on Pricing page
-- **Add-ons section** on Pricing page
-- **Testimonials section** on Home page
-- **Trust/stats bar** on Home page
-- **Social links** in footer
-- Smooth scroll-to-top on route change
-- Glassmorphism nav that transitions on scroll
-- Body scroll lock when mobile menu is open
-- WhatsApp label expands on hover
-
-### 🎨 Design
-- Preserved original brand palette: Plum, Rose, Blush, Gold, Ivory, Sage
-- Typography retained: Cormorant Garamond (serif) + DM Sans (sans)
-- Animations: `fadeUp`, `fadeIn`, gold shimmer on brand marks
-- Masonry grid layout for Inspiration page
-- Sticky filter bars on Vendors and Inspiration pages
+| 1 | `</nav>` closing footer | Replaced with `</footer>` |
+| 2 | Custom Tailwind colors not resolving | Added `tailwind.config.js` with brand token palette |
+| 3 | Quiz fully static | Rebuilt as functional 5-step React component |
+| 4 | Vendor tabs had no handlers | Implemented useState filter |
+| 5 | No mobile navigation | Animated hamburger drawer |
+| 6 | Missing `alt` on all images | Descriptive alt text added sitewide |
+| 7 | No lazy loading | `loading="lazy"` on all below-fold images |
+| 8 | Wrong WhatsApp SVG | Official WhatsApp brand SVG path |
+| 9 | Hardcoded copyright year | `new Date().getFullYear()` |
+| 10 | No SEO meta tags | OG + meta description in index.html |
+| 11 | Newsletter form unvalidated | Email regex + required attribute |
 
 ---
 
 ## [Unreleased]
 
-See `TODO.md` for planned improvements.
+See `TODO.md` for the V1.2+ backlog.

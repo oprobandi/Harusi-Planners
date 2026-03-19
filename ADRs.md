@@ -1,17 +1,16 @@
 # Architecture Decision Records (ADRs)
 
-Lightweight ADRs for **Harusi Planners v1.0**.
+Lightweight ADRs for **Harusi Planners**.
 Format: [MADR](https://adr.github.io/madr/) — minimal, markdown-based.
 
 ---
 
 ## ADR-001 · Vite + React over Next.js or CRA
 
-**Date:** 2026-03-19
-**Status:** Accepted
+**Date:** 2026-03-19 · **Status:** Accepted
 
 ### Context
-Three React scaffolding options were considered: Create React App (CRA), Vite + React, and Next.js.
+Three React scaffolding options were considered: CRA, Vite + React, and Next.js.
 
 ### Decision
 Use **Vite + React** (SPA, client-side only).
@@ -23,157 +22,150 @@ Use **Vite + React** (SPA, client-side only).
 | Bundle size | Large baseline | Lean | Larger (SSR runtime) |
 | SSR / SEO | ✕ | ✕ | ✓ |
 | Complexity | Low | Low | Medium–High |
-| Deployment target | Any static host | Any static host | Needs Node or edge |
+| Deployment | Any static host | Any static host | Needs Node or edge |
 
-The v1.0 product is a **marketing landing site** with no server-rendered SEO requirements beyond meta tags. Next.js SSR overhead is unjustified at this stage. CRA is effectively deprecated upstream. Vite gives the fastest DX and smallest output.
+The v1.x product is a marketing site. Next.js SSR overhead is unjustified. CRA is deprecated.
 
 ### Consequences
-- Static output (`dist/`) deploys to Netlify, Vercel, Cloudflare Pages, or any CDN with zero config
-- If SEO becomes critical (blog, vendor pages indexed by Google), migrate to Next.js App Router or add a pre-rendering step (e.g. `vite-plugin-ssr`)
-- No server-side data fetching — all data loads client-side
+- Static `dist/` deploys to Netlify, Vercel, Cloudflare Pages with zero config
+- All routes require a SPA fallback rule (`_redirects` / `vercel.json`)
+- If SEO becomes critical (blog, vendor pages indexed), consider migrating to Next.js App Router
 
 ---
 
-## ADR-002 · Tailwind CSS v3 with Custom Config over Inline CSS or CSS Modules
+## ADR-002 · Tailwind CSS v3 with Custom Config
 
-**Date:** 2026-03-19
-**Status:** Accepted
-
-### Context
-The original prototype used the Tailwind CDN script with custom CSS variables alongside standard Tailwind classes. This caused the custom color tokens (`bg-ivory`, `text-blush`, etc.) to silently fail because they were not registered in a Tailwind config.
+**Date:** 2026-03-19 · **Status:** Accepted
 
 ### Decision
-Use **Tailwind CSS v3** installed as a PostCSS plugin, with all brand tokens defined in `tailwind.config.js` under `theme.extend.colors`.
+Tailwind CSS v3 as a PostCSS plugin with all brand tokens in `tailwind.config.js`.
 
 ### Rationale
-- Resolves the silent class failure bug from the prototype
-- All brand colours (`plum`, `rose`, `blush`, `gold`, `ivory`, `sage`) become first-class Tailwind utilities with full opacity modifier support (`bg-plum/10`, `text-rose/60`, etc.)
-- PostCSS pipeline enables tree-shaking — only used utility classes are emitted into the final CSS bundle
-- Design tokens live in one file; changing a hex value propagates everywhere
-
-### Consequences
-- Developers must run `npm install` before classes resolve (no CDN fallback)
-- Adding new brand colours requires editing `tailwind.config.js`; arbitrary values (`bg-[#hex]`) should be avoided in favour of named tokens
+Fixes the silent class failure bug from the prototype where `bg-ivory`, `text-blush` etc. used CSS variables that were never registered in Tailwind's config. All six brand tokens (`plum`, `rose`, `blush`, `gold`, `ivory`, `sage`) are now first-class Tailwind utilities with full opacity modifier support.
 
 ---
 
-## ADR-003 · React Router v6 for Client-Side Routing
+## ADR-003 · React Router v6
 
-**Date:** 2026-03-19
-**Status:** Accepted
-
-### Context
-Four pages needed to be broken into separate routes: Home, Vendors & Venues, Pricing, Real Weddings.
+**Date:** 2026-03-19 · **Status:** Accepted
 
 ### Decision
-Use **React Router DOM v6** with `<BrowserRouter>` and `<Routes>` / `<Route>` declarations in `App.jsx`.
+React Router DOM v6 with `<BrowserRouter>` and `<Routes>`.
+
+### Consequences
+- Hosting must serve `index.html` for all routes. Netlify: `_redirects` file. Vercel: `vercel.json` rewrites. Both included in `/public/`.
+
+---
+
+## ADR-004 · Local Component State for Quiz (not Zustand/Context)
+
+**Date:** 2026-03-19 · **Status:** Accepted
+
+### Decision
+All quiz state (`step`, `answers`, `selected`) managed with `useState` inside `Quiz.jsx`.
 
 ### Rationale
-- Industry-standard, well-documented, zero-config with Vite
-- v6 `<NavLink>` provides built-in `isActive` class injection — used for nav highlighting
-- Declarative route tree is easy to extend (add `/vendors/:slug`, `/blog/:post`, etc.)
-- `useNavigate` used in Navbar for programmatic scroll-to-quiz behaviour
+Quiz is self-contained. No other component reads quiz state. Global state would be premature.
 
-### Consequences
-- Hosting provider must be configured to serve `index.html` for all routes (SPA fallback). On Netlify, add a `_redirects` file: `/* /index.html 200`. On Vercel, add `vercel.json` with rewrites. See `TODO.md`.
-- Direct URL navigation (`/vendors`) requires this SPA fallback rule — without it, users get a 404 from the CDN
+### Upgrade Path
+If quiz results need to survive navigation: `localStorage.setItem('harusi-quiz', JSON.stringify(answers))` — one line. If quiz feeds a couple dashboard (V1.2+): promote to Zustand store.
 
 ---
 
-## ADR-004 · Quiz State Managed in Component Local State (not Context or Zustand)
+## ADR-005 · Data Layer: `src/data/*.js` Files (not CMS, not inline)
 
-**Date:** 2026-03-19
-**Status:** Accepted
+**Date:** 2026-03-19 (revised V1.1) · **Status:** Accepted — to be revisited in V1.2
 
 ### Context
-The 5-step quiz needs to track: current step index, per-step answers, and the selected option within the current step.
+V1.0 hardcoded all data inside page components. V1.1 extracts them to `src/data/` files.
 
 ### Decision
-Manage all quiz state with **`useState` hooks local to `Quiz.jsx`** — no global state (Context, Zustand, Redux).
+Data lives in `src/data/packages.js`, `src/data/vendors.js`, `src/data/weddings.js`, `src/data/quiz.js`.
 
 ### Rationale
-- The quiz is self-contained; no other component needs to read its state
-- Local state keeps the component portable and independently testable
-- Adding global state at this stage would be premature complexity
-- If quiz answers need to persist (e.g. pre-fill a CRM form, survive navigation), the upgrade path is: `localStorage` serialisation (1 line) → Zustand store (if shared)
+- Zero-dependency deployment — no API keys or CMS setup required to run locally or deploy
+- Data is now separated from presentation — page components import data, not own it
+- Single edit point per data type
 
 ### Consequences
-- Navigating away from the Home page resets the quiz; this is acceptable for v1.0
-- See `TODO.md` for `localStorage` persistence as a planned enhancement
+- Content updates still require a code deploy
+- **Migration path (V1.2):** Replace data file exports with `fetch()` calls against Sanity or Supabase. The import shape in consuming components won't change if a loading/error state pattern is introduced at the data layer.
+
+### Recommended CMS (when ready)
+**Sanity** — optimal for image-heavy content (vendor photos, wedding galleries), GROQ query language is expressive, generous free tier, and has a React Studio UI that non-technical staff can use.
 
 ---
 
-## ADR-005 · Hardcoded Mock Data in Page Components
+## ADR-006 · No Authentication in V1.x
 
-**Date:** 2026-03-19
-**Status:** Accepted (to be revisited in v1.1)
-
-### Context
-Vendor listings, wedding stories, packages, and quiz options are static arrays defined at the top of each page component. No CMS or API exists yet.
+**Date:** 2026-03-19 · **Status:** Accepted
 
 ### Decision
-Keep mock data **co-located with the page component** that uses it for v1.0.
+Defer all authentication to V1.2.
 
 ### Rationale
-- Enables zero-dependency deployment — no API keys, no CMS setup required to get the site live
-- Speeds up v1.0 delivery significantly
-- Data is scoped to a single consumer; no cross-page sharing exists yet
+Auth adds significant complexity (token management, protected routes, session storage). V1.x goal is a conversion-focused marketing site — primary CTA is WhatsApp contact, not account creation.
 
-### Consequences
-- Content updates require a code deploy — not suitable for a non-technical content team
-- As the vendor count grows, the bundle size will grow with it
-- **Migration path (v1.1+):** Extract arrays to `src/data/*.js` files → replace with `fetch()` calls against a Headless CMS (Sanity recommended for its image pipeline) or Supabase table
+### Recommended Auth Stack (V1.2)
+**Supabase Auth** — free tier, magic link support (appropriate for East African market where email-first flows outperform social auth), row-level security for vendor data, integrates cleanly with Supabase DB for the vendor portal.
 
 ---
 
-## ADR-006 · No Authentication in v1.0
+## ADR-007 · Accessibility Baseline (WCAG 2.1 Level A)
 
-**Date:** 2026-03-19
-**Status:** Accepted
+**Date:** 2026-03-19 · **Status:** Accepted (partial — Level AA gaps documented in TODO)
 
-### Context
-The product vision includes a couple dashboard and a vendor portal. Both require authenticated sessions.
+### What was implemented (V1.0–V1.1)
+- `alt` on all images, `aria-label` on icon-only buttons, `aria-expanded` on accordions and hamburger
+- `aria-pressed` on quiz option buttons, `aria-checked` on BudgetEstimator toggle
+- `role="alert"` on form errors, `aria-hidden` on decorative elements
+- Semantic HTML throughout (`<nav>`, `<main>`, `<footer>`, heading hierarchy)
+- Form `<label>` linked to inputs via `htmlFor/id`
 
-### Decision
-**Defer all authentication** to v1.1.
-
-### Rationale
-- Auth adds significant complexity (token management, protected routes, refresh logic, session storage)
-- v1.0 goal is a conversion-focused marketing site — the primary CTA is WhatsApp contact, not account creation
-- Premature auth scaffolding would slow delivery without user-facing value
-
-### Consequences
-- Vendor "View Profile" links are non-functional placeholders in v1.0
-- Email submitted via quiz is captured client-side only (`alert()` confirmation) — must be wired to an email provider before launch (see `TODO.md`)
-
-### Recommended Auth Stack (when ready)
-[Supabase Auth](https://supabase.com/docs/guides/auth) — free tier, supports magic links (appropriate for East African market where email-first flows work better than social auth), row-level security for vendor data.
-
----
-
-## ADR-007 · Accessibility Baseline
-
-**Date:** 2026-03-19
-**Status:** Accepted (partial — to be hardened in v1.1)
-
-### Context
-The original prototype had zero accessibility considerations: no `alt` text, no ARIA labels, no keyboard navigation.
-
-### Decision
-Implement a **WCAG 2.1 Level A baseline** in v1.0 and document gaps for Level AA in `TODO.md`.
-
-### What was implemented
-- `alt` attributes on all images (descriptive, not empty)
-- `aria-label` on icon-only buttons (hamburger, WhatsApp float, social links)
-- `aria-expanded` on hamburger toggle and FAQ accordion buttons
-- `aria-pressed` on quiz option buttons
-- `role="alert"` on form error messages
-- `aria-hidden="true"` on decorative SVGs and emoji
-- Semantic HTML (`<nav>`, `<main>`, `<footer>`, `<section>`, heading hierarchy)
-- Form `<label>` elements linked to inputs via `htmlFor` / `id`
-
-### Known gaps (Level AA — see TODO.md)
+### Known Level AA gaps (see TODO.md)
 - Focus trap not implemented in mobile nav drawer
 - `aria-live` region missing from quiz step transitions
-- Color contrast of opacity-reduced text variants not formally audited
-- `prefers-reduced-motion` media query not yet applied to animations
+- Color contrast of opacity-reduced text not formally audited
+- `prefers-reduced-motion` not yet applied to animations
+
+---
+
+## ADR-008 · Pricing Strategy: Market-Rate Alignment
+
+**Date:** 2026-03-19 (V1.1) · **Status:** Accepted
+
+### Context
+V1.0 pricing was derived from the original prototype without market validation. After analysis of 2026 Kenya wedding market data (harusihub.com/blog, ccentricevents.co.ke, janatribe.com), all three original packages were found to be underpriced relative to industry benchmarks of 5–15% of total wedding budget.
+
+### Decision
+1. **Reprice all three original tiers** upward (Ndogo +22%, Kati +46%, Kubwa +52%)
+2. **Add Asili tier** (KSh 90,000) for the cultural/traditional wedding market — a gap explicitly unaddressed by competitors
+3. **Add Safari & Shores tier** (from KSh 450,000) for destination weddings — distinct scope requiring separate packaging
+4. **Add Budget Estimator** — interactive tool showing couples the full picture of wedding costs, positioning Harusi as transparent and trustworthy rather than just a vendor
+
+### Rationale for Kubwa Correction
+A couple spending KSh 3–5M on their wedding will have greater trust in a planner who charges KSh 380,000 than one who charges KSh 250,000. Price signals quality at the luxury tier. Underpricing actively undermines conversion with high-budget clients.
+
+### Consequences
+- Existing clients quoted under V1.0 pricing must be honoured at the V1.0 rate for 90 days post-launch
+- Package descriptions updated to clearly state "starting price" and "excl. 16% VAT" to prevent anchor-price confusion
+- The "from KSh 450,000" phrasing on Safari & Shores is intentional — destination scope is too variable for a flat rate
+
+---
+
+## ADR-009 · SEO: react-helmet-async over Static Meta Tags
+
+**Date:** 2026-03-19 (V1.1) · **Status:** Accepted
+
+### Context
+V1.0 placed all meta tags statically in `index.html`. All four routes served identical `<title>` and `<meta description>` tags — a significant SEO regression from a multi-page experience.
+
+### Decision
+Use `react-helmet-async` with a `<SEOHead>` component that each page mounts with its own title, description, canonical URL, Open Graph, and Twitter Card data.
+
+### Rationale
+`react-helmet-async` is the maintained successor to `react-helmet`. It is safe with React 18's concurrent rendering, unlike its predecessor. Alternative (`@vite-plugin-html`) would require SSR or pre-rendering to be effective.
+
+### Consequences
+- Meta tags are injected by JavaScript — bots that don't execute JS (older Googlebot crawls) may miss them
+- **V1.2 mitigation:** Add `vite-plugin-ssr` pre-rendering or migrate to Next.js if Google Search Console reports crawl issues

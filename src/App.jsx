@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { HelmetProvider } from 'react-helmet-async'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppFloat from './components/WhatsAppFloat'
@@ -8,7 +9,6 @@ import Vendors from './pages/Vendors'
 import Pricing from './pages/Pricing'
 import Inspiration from './pages/Inspiration'
 
-// Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
@@ -17,7 +17,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <>
+    <HelmetProvider>
       <ScrollToTop />
       <Navbar />
       <main>
@@ -30,6 +30,6 @@ export default function App() {
       </main>
       <Footer />
       <WhatsAppFloat />
-    </>
+    </HelmetProvider>
   )
 }
