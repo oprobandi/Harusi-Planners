@@ -6,6 +6,17 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ## ✅ Shipped
 
+### V1.4
+- [x] Newsletter form — email regex validation (fixes accepts-any-string bug)
+- [x] Newsletter form — Mailchimp API wiring via /api/subscribe serverless fn
+- [x] Quiz email capture — Mailchimp API wiring, loading/error states
+- [x] api/subscribe.js — Vercel serverless function with tag differentiation
+- [x] .env.example — Mailchimp variables documented
+- [x] README — Mailchimp setup guide (4 steps)
+- [x] Home "View Profile" — now opens VendorModal, not /vendors page
+- [x] sitemap.xml — updated to live harusi-planners.vercel.app domain
+- [x] robots.txt — domain updated to match sitemap
+
 ### V1.3
 - [x] Fix Karen Country Club image (third attempt — confirmed ID)
 - [x] Navbar wordmark: "Harusi Planners" two-weight treatment
@@ -49,7 +60,7 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ---
 
-## 🔴 High Priority (V1.4)
+## 🔴 High Priority (V1.5)
 
 ### Logo
 - [ ] **Swap text wordmark for designed logo** — when logo SVG is delivered,
@@ -59,13 +70,19 @@ Prioritised backlog. Items shipped in a version are removed and documented in CH
 
 ### Backend & Data
 
+- [ ] **Set VITE_WHATSAPP_NUMBER in Vercel dashboard** — Currently falls back to
+  hardcoded default. Vercel: Project → Settings → Environment Variables.
+- [ ] **Submit sitemap to Google Search Console** — now that domain is confirmed.
+- [ ] **Add MAILCHIMP env vars to Vercel** — follow Mailchimp Setup Guide in README.
+  Without this, /api/subscribe returns 500 in production.
+- [ ] **Double opt-in consideration** — currently `status: 'subscribed'` sends
+  contacts straight to your list. Change to `status: 'pending'` in api/subscribe.js
+  to require email confirmation (recommended for GDPR compliance).
+
 ### Backend & Data
 - [ ] **Replace src/data/*.js with CMS** — Migrate to Sanity (recommended)
   or Contentful. See ADR-005 for migration path.
   - Priority order: packages.js → vendors.js → weddings.js
-- [ ] **Quiz email → real API submission** — Wire to Mailchimp or ConvertKit.
-  Currently the form submits optimistically with no actual email sent.
-- [ ] **Newsletter footer → same service** — Consolidate with quiz submission.
 - [ ] **Move VITE_WHATSAPP_NUMBER to Vercel env vars** — Currently falls back
   to hardcoded default. Set in Vercel dashboard: Settings → Environment Variables.
 

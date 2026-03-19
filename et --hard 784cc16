@@ -1,0 +1,120 @@
+[33mdd5bf6d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m feat: V1.3–V1.6 — icons, logos, vendor profiles, Mailchimp, double opt-in
+ .env.example                     |  17 [32m+[m[31m-[m
+ ADRs.md                          |  91 [32m+++[m
+ CHANGELOG.md                     | 118 [32m++[m[31m-[m
+ README.md                        | 117 [32m++[m[31m-[m
+ TODO.md                          |  67 [32m+[m[31m-[m
+ api/subscribe.js                 |  91 [32m+++[m
+ package-lock.json                |   4 [32m+[m[31m-[m
+ package.json                     |   2 [32m+[m[31m-[m
+ public/logo-mark.svg             |  68 [32m++[m
+ public/logo-white.svg            |  94 [32m+++[m
+ public/logo.svg                  | 158 [32m++++[m
+ public/robots.txt                |   2 [32m+[m[31m-[m
+ public/sitemap.xml               |  68 [32m+[m[31m-[m
+ src/App.jsx                      |  36 [32m+[m[31m-[m
+ .../BudgetEstimator.jsx          |  12 [32m+[m[31m-[m
+ src/components/Footer.jsx        | 188 [32m+++[m[31m--[m
+ src/components/Navbar.jsx        |  55 [32m+[m[31m-[m
+ .../TestimonialsCarousel.jsx     |  10 [32m+[m[31m-[m
+ src/components/VendorModal.jsx   |  14 [32m+[m[31m-[m
+ src/components/WhatsAppFloat.jsx |   2 [32m+[m[31m-[m
+ src/components/quiz/Quiz.jsx     |  56 [32m+[m[31m-[m
+ src/data/vendors.js              | 387 [32m+++++++[m[31m---[m
+ src/index.css                    |  27 [32m+[m[31m-[m
+ src/pages/Home.jsx               |  21 [32m+[m[31m-[m
+ src/pages/Inspiration.jsx        |  10 [32m+[m[31m-[m
+ src/pages/NotFound.jsx           |   8 [32m+[m[31m-[m
+ src/pages/Pricing.jsx            |  40 [32m+[m[31m-[m
+ src/pages/VendorProfile.jsx      | 262 [32m+++++++[m
+ src/pages/Vendors.jsx            |  36 [32m+[m[31m-[m
+ tailwind.config.js               |   8 [32m+[m
+ 30 files changed, 1654 insertions(+), 415 deletions(-)
+[33m784cc16[m feat: V1.3 — icons, wordmark, Karen image fix
+ ADRs.md                          |  65 [32m++++[m
+ CHANGELOG.md                     | 151 [32m+++++[m[31m-----[m
+ README.md                        |  51 [32m+++[m[31m-[m
+ TODO.md                          |  25 [32m+[m[31m-[m
+ package-lock.json                |  14 [32m+[m[31m-[m
+ package.json                     |   7 [32m+[m[31m-[m
+ .../BudgetEstimator.jsx          |  31 [32m+[m[31m-[m
+ src/components/Footer.jsx        |  62 [32m+++[m[31m-[m
+ src/components/Navbar.jsx        |  29 [32m+[m[31m-[m
+ src/components/VendorModal.jsx   |  37 [32m++[m[31m-[m
+ src/data/packages.js             |  17 [32m+[m[31m-[m
+ src/data/vendors.js              |   2 [32m+[m[31m-[m
+ src/pages/Pricing.jsx            | 141 [32m+++++[m[31m----[m
+ src/pages/Vendors.jsx            |  15 [32m+[m[31m-[m
+ 14 files changed, 441 insertions(+), 206 deletions(-)
+[33mfd6acc4[m fix: apply V1.2 source files (previous commit missed extraction)
+ .gitignore                       |   1 [31m-[m
+ .vercel/README.txt               |  11 [32m+[m
+ .vercel/project.json             |   1 [32m+[m
+ ADRs.md                          | 247 [32m++++++[m[31m----[m
+ CHANGELOG.md                     | 182 [32m++++[m[31m---[m
+ README.md                        |  18 [32m+[m[31m-[m
+ TODO.md                          | 159 [32m++++[m[31m--[m
+ package.json                     |   2 [32m+[m[31m-[m
+ src/App.jsx                      |  44 [32m+[m[31m-[m
+ src/components/Navbar.jsx        |   1 [32m+[m
+ .../TestimonialsCarousel.jsx     | 197 [32m++++++++[m
+ src/components/quiz/Quiz.jsx     |  24 [32m+[m[31m-[m
+ src/data/vendors.js              |   4 [32m+[m[31m-[m
+ src/data/weddings.js             |   2 [32m+[m[31m-[m
+ src/pages/Home.jsx               |  40 [32m+[m[31m-[m
+ src/pages/NotFound.jsx           |  64 [32m+++[m
+ src/pages/Vendors.jsx            |  97 [32m+++[m[31m-[m
+ 17 files changed, 768 insertions(+), 326 deletions(-)
+[33m3de5b34[m fix+feat: V1.2 — bug fixes, code splitting, carousel, pagination
+ .gitignore        |    1 [32m+[m
+ package-lock.json | 2768 [32m++++++++++++++++++++++++[m
+ 2 files changed, 2769 insertions(+)
+[33mc5c6ed1[m feat: V1.1 — pricing overhaul, data layer, new components
+ ADRs.md                          | 184 [32m+++[m[31m--[m
+ CHANGELOG.md                     | 137 [32m++[m[31m--[m
+ README.md                        | 116 [32m++[m[31m--[m
+ TODO.md                          |  87 [32m+[m[31m--[m
+ package.json                     |   3 [32m+[m[31m-[m
+ public/robots.txt                |   4 [32m+[m
+ public/sitemap.xml               |  23 [32m+[m
+ src/App.jsx                      |   6 [32m+[m[31m-[m
+ .../BudgetEstimator.jsx          | 240 [32m+++++++[m
+ src/components/SEOHead.jsx       |  38 [32m+[m
+ src/components/VendorModal.jsx   | 119 [32m++++[m
+ src/components/quiz/Quiz.jsx     | 268 [32m+++[m[31m----[m
+ src/data/packages.js             | 178 [32m+++++[m
+ src/data/quiz.js                 | 125 [32m++++[m
+ src/data/vendors.js              | 163 [32m+++++[m
+ src/data/weddings.js             | 106 [32m+++[m
+ src/pages/Home.jsx               |  96 [32m+[m[31m--[m
+ src/pages/Inspiration.jsx        | 122 [32m+[m[31m---[m
+ src/pages/Pricing.jsx            | 347 [32m+++++[m[31m-----[m
+ src/pages/Vendors.jsx            | 141 [32m++[m[31m--[m
+ src/utils/constants.js           |  16 [32m+[m
+ 21 files changed, 1738 insertions(+), 781 deletions(-)
+[33m86b1ee6[m feat: V1.0 — initial release
+ .env.example                     |   4 [32m+[m
+ .gitignore                       |   6 [32m+[m
+ ADRs.md                          | 179 [32m++++++[m
+ CHANGELOG.md                     |  58 [32m++[m
+ README.md                        | 111 [32m++++[m
+ TODO.md                          |  67 [32m++[m
+ index.html                       |  20 [32m+[m
+ package.json                     |  25 [32m+[m
+ postcss.config.js                |   6 [32m+[m
+ public/_redirects                |   1 [32m+[m
+ src/App.jsx                      |  35 [32m+[m
+ src/components/Footer.jsx        | 117 [32m++++[m
+ src/components/Navbar.jsx        | 144 [32m+++++[m
+ src/components/WhatsAppFloat.jsx |  29 [32m+[m
+ src/components/quiz/Quiz.jsx     | 322 [32m++++++++++[m
+ src/index.css                    |  88 [32m+++[m
+ src/main.jsx                     |  13 [32m+[m
+ src/pages/Home.jsx               | 235 [32m+++++++[m
+ src/pages/Inspiration.jsx        | 218 [32m+++++++[m
+ src/pages/Pricing.jsx            | 242 [32m+++++++[m
+ src/pages/Vendors.jsx            | 162 [32m+++++[m
+ tailwind.config.js               |  42 [32m++[m
+ vercel.json                      |   3 [32m+[m
+ vite.config.js                   |   7 [32m+[m
+ 24 files changed, 2134 insertions(+)

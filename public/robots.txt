@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://harusihub.com/sitemap.xml
+Sitemap: https://harusi-planners.vercel.app/sitemap.xml

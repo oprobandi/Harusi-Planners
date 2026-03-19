@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import SEOHead from '../components/SEOHead'
 import Quiz from '../components/quiz/Quiz'
+import VendorModal from '../components/VendorModal'
 import TestimonialsCarousel from '../components/TestimonialsCarousel'
 import { VENDORS } from '../data/vendors'
 import { WHATSAPP_URL } from '../utils/constants'
@@ -21,6 +23,8 @@ const STATS = [
 const FEATURED_VENDORS = VENDORS.filter(v => v.badge).slice(0, 4)
 
 export default function Home() {
+  const [activeVendor, setActiveVendor] = useState(null)
+
   return (
     <>
       <SEOHead path="/" />
@@ -133,9 +137,12 @@ export default function Home() {
                 <p className="text-xs text-rose font-medium mb-4">{category}</p>
                 <div className="flex justify-between items-center border-t border-plum/5 pt-4">
                   <span className="text-xs text-plum/40">{from}</span>
-                  <Link to="/vendors" className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum transition">
+                  <button
+                    onClick={() => setActiveVendor(FEATURED_VENDORS.find(v => v.name === name) ?? null)}
+                    className="text-[10px] font-bold uppercase tracking-widest text-rose hover:text-plum transition cursor-pointer"
+                  >
                     View Profile ⟶
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
@@ -162,6 +169,10 @@ export default function Home() {
           Join as a Vendor — Free Listing ⟶
         </a>
       </section>
+      {/* Vendor modal */}
+      {activeVendor && (
+        <VendorModal vendor={activeVendor} onClose={() => setActiveVendor(null)} />
+      )}
     </>
   )
 }

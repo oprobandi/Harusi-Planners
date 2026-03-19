@@ -269,3 +269,46 @@ logo SVG is delivered.
 - The period in "Harusi." was a deliberate design choice in the prototype;
   removing it was intentional — the full brand name is more appropriate for
   a customer-facing nav
+
+---
+
+## ADR-015 · Email Capture: Vercel Serverless Function over Direct Mailchimp Call
+
+**Date:** 2026-03-19 (V1.4) · **Status:** Accepted
+
+### Context
+Mailchimp's Marketing API requires an API key for authentication. Two integration
+patterns were considered:
+
+1. **Direct browser call** — React POSTs to Mailchimp API from the client
+2. **Serverless proxy** — React POSTs to `/api/subscribe`, which calls Mailchimp server-side
+
+### Decision
+Use a **Vercel Serverless Function** at `api/subscribe.js`.
+
+### Rationale
+| Factor | Direct browser call | Serverless proxy |
+|---|---|---|
+| API key exposure | ✕ Visible in browser network tab | ✓ Server-side only |
+| CORS | ✕ Mailchimp blocks browser CORS | ✓ Server-to-server, no CORS |
+| Rate limiting | Per-user IP | Controlled server-side |
+| Flexibility | Locked to Mailchimp | Can swap provider without frontend changes |
+
+The API key in the browser bundle is a security violation — anyone could extract it
+and use it to read your subscriber list, delete contacts, or send campaigns.
+
+### Consequences
+- Three Mailchimp env vars must be added to Vercel dashboard before the feature
+  works in production (`MAILCHIMP_API_KEY`, `MAILCHIMP_LIST_ID`, `MAILCHIMP_SERVER_PREFIX`)
+- Local development requires `.env` file (documented in README)
+- If switching from Mailchimp to another provider (ConvertKit, Brevo, etc.),
+  only `api/subscribe.js` needs to change — frontend forms are unchanged
+- Vercel function logs available at: Vercel dashboard → Project → Functions → subscribe
+
+### Tag Strategy
+Subscribers are tagged by source for audience segmentation:
+- `newsletter` + `website` — opted in via footer form (passive interest)
+- `quiz-lead` + `website` — completed the quiz (high-intent lead)
+
+This allows Mailchimp automations to treat quiz leads differently
+(e.g. send vendor shortlist email) vs. newsletter subscribers (send weekly inspiration).

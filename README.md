@@ -1,4 +1,4 @@
-# Harusi Planners · v1.3
+# Harusi Planners · v1.4
 
 > East Africa's most trusted wedding planning platform.
 
@@ -113,6 +113,55 @@ The `public/_redirects` file handles SPA routing automatically.
 ### Cloudflare Pages
 Build command: `npm run build` · Output directory: `dist`
 Add a redirect rule: `/* → /index.html` (200 rewrite).
+
+---
+
+## Mailchimp Setup Guide
+
+Newsletter subscriptions and quiz email captures both POST to `/api/subscribe`,
+which is a Vercel serverless function that proxies to Mailchimp server-side.
+
+### Step 1 — Get your Mailchimp credentials
+
+1. Log in at [mailchimp.com](https://mailchimp.com)
+2. **API Key:** Account → Extras → API Keys → Create A Key
+   - Looks like: `abc123...xyz-us21`
+   - The part after the last `-` is your **server prefix** (e.g. `us21`)
+3. **List/Audience ID:** Audience → Manage Audiences → Settings → Audience name & defaults
+   - Looks like: `a1b2c3d4e5`
+
+### Step 2 — Add to Vercel environment variables
+
+In the Vercel dashboard: **Project → Settings → Environment Variables**
+
+Add all three — set scope to **Production + Preview + Development**:
+
+| Variable | Value |
+|---|---|
+| `MAILCHIMP_API_KEY` | Your full API key |
+| `MAILCHIMP_LIST_ID` | Your Audience ID |
+| `MAILCHIMP_SERVER_PREFIX` | e.g. `us21` |
+
+Then **redeploy** (Vercel dashboard → Deployments → Redeploy, or push a commit).
+
+### Step 3 — Test it
+
+Subscribe with a real email on your live site. Then in Mailchimp:
+- Audience → All Contacts — your subscriber should appear with tags:
+  - `newsletter` + `website` (from footer form)
+  - `quiz-lead` + `website` (from quiz email capture)
+
+### Step 4 — Local development
+
+Create `.env` at the project root (copied from `.env.example`) and fill in
+the three Mailchimp values. The serverless function will use them via `process.env`.
+
+```bash
+cp .env.example .env
+# Edit .env with your real values
+npm run dev
+```
+
 
 ---
 

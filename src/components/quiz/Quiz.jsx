@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 import { QUIZ_STEPS, QUIZ_RESULTS, recommendPackage } from '../../data/quiz'
 import { WHATSAPP_URL } from '../../utils/constants'
 
@@ -37,14 +38,32 @@ function ResultCard({ answers, onReset }) {
   const pkgId  = recommendPackage(answers)
   const result = QUIZ_RESULTS[pkgId]
 
-  const handleSubmit = (e) => {
+  const [submitting, setSubmitting] = React.useState(false)
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!name.trim()) { setError('Please enter your name.'); return }
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRx.test(email)) { setError('Please enter a valid email address.'); return }
+    if (!emailRx.test(email.trim())) { setError('Please enter a valid email address.'); return }
     setError('')
-    setSubmitted(true)
-    // TODO (V1.2): POST to email service endpoint here
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/subscribe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email: email.trim(), name: name.trim(), source: 'quiz' }),
+      })
+      const data = await res.json()
+      if (res.ok && data.success) {
+        setSubmitted(true)
+      } else {
+        setError(data.error ?? 'Something went wrong. Please try again.')
+        setSubmitting(false)
+      }
+    } catch {
+      setError('Network error. Please try again.')
+      setSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -168,8 +187,15 @@ function ResultCard({ answers, onReset }) {
         <p className="text-[10px] text-plum/30 mb-6">No spam, ever. Unsubscribe anytime.</p>
 
         <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <button type="submit" className="flex-1 w-full bg-rose text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-plum transition">
-            Get My Wedding Plan 💍
+          <button
+            type="submit"
+            disabled={submitting}
+            className="flex-1 w-full bg-rose text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-plum transition disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            {submitting
+              ? <><Loader2 size={16} className="animate-spin" aria-hidden="true" /> Sending...</>
+              : <>Get My Wedding Plan 💍</>
+            }
           </button>
         </div>
       </form>
