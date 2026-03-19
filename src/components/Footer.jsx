@@ -28,10 +28,8 @@ const company = [
 
 const support = [
   { label: 'Contact',       to: '/contact' },
-  { label: 'Vendors',        to: '/vendors' },
-  { label: 'Venues',          to: '/venues' },
-  { label: 'Privacy Policy', to: '/' },
-  { label: 'FAQs',           to: '/faqs' },
+  { label: 'Vendor Portal', to: '/vendors' },
+  { label: 'FAQs',          to: '/faqs' },
 ]
 
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -45,7 +43,6 @@ function NewsletterForm() {
     e.preventDefault()
     const trimmed = email.trim()
 
-    // Client-side validation
     if (!trimmed) {
       setStatus('error')
       setMessage('Please enter your email address.')
@@ -119,7 +116,6 @@ function NewsletterForm() {
         </button>
       </div>
 
-      {/* Error message */}
       {status === 'error' && (
         <div role="alert" className="flex items-center gap-1.5 text-[11px] text-rose/80">
           <AlertCircle size={12} aria-hidden="true" />
@@ -191,8 +187,26 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="text-center text-[10px] uppercase tracking-[0.4em] text-white/20 pt-10 border-t border-white/5">
-        © {year} Harusi Planners · Handcrafted in Kenya
+      {/* ── Bottom bar ── */}
+      <div className="border-t border-white/5 pt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-[10px] uppercase tracking-[0.4em] text-white/20">
+          © {year} Harusi Planners · Handcrafted in Kenya
+        </p>
+        <div className="flex items-center gap-6">
+          <Link
+            to="/privacy"
+            className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white/60 transition"
+          >
+            Privacy Policy
+          </Link>
+          <span className="text-white/10" aria-hidden="true">·</span>
+          <Link
+            to="/terms"
+            className="text-[10px] uppercase tracking-widest text-white/30 hover:text-white/60 transition"
+          >
+            Terms of Service
+          </Link>
+        </div>
       </div>
     </footer>
   )
