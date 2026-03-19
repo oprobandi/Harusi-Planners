@@ -4,26 +4,25 @@ import { Sparkles, ChevronDown } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 
 const NAV_LINKS = [
-  { label: 'Home',           to: '/' },
-  { label: 'Planning Tools', to: '/#quiz', scroll: true },
-  { label: 'Vendors',        to: '/vendors' },
-  { label: 'Inspiration',    to: '/inspiration' },
-  { label: 'Pricing',        to: '/pricing' },
+  { label: 'Home',    to: '/' },
+  { label: 'Pricing', to: '/pricing' },
+  { label: 'Blog',    to: '/blog' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 const ABOUT_LINKS = [
-  { label: 'About Us',   to: '/about',   desc: 'Our story and mission' },
-  { label: 'The Blog',   to: '/blog',    desc: 'Planning tips and stories' },
-  { label: 'Contact',    to: '/contact', desc: 'Get in touch with us' },
-  { label: 'FAQs',       to: '/faqs',    desc: 'Common questions answered' },
+  { label: 'About Us',    to: '/about',       desc: 'Our story and mission' },
+  { label: 'Vendors',     to: '/vendors',     desc: 'Browse 850+ professionals' },
+  { label: 'Inspiration', to: '/inspiration', desc: 'Real East African weddings' },
+  { label: 'FAQs',        to: '/faqs',        desc: 'Common questions answered' },
 ]
 
 export default function Navbar() {
-  const [scrolled,      setScrolled]      = useState(false)
-  const [menuOpen,      setMenuOpen]      = useState(false)
-  const [aboutOpen,     setAboutOpen]     = useState(false)
-  const [mobileAbout,   setMobileAbout]   = useState(false)
-  const navigate   = useNavigate()
+  const [scrolled,    setScrolled]    = useState(false)
+  const [menuOpen,    setMenuOpen]    = useState(false)
+  const [aboutOpen,   setAboutOpen]   = useState(false)
+  const [mobileAbout, setMobileAbout] = useState(false)
+  const navigate    = useNavigate()
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -77,42 +75,32 @@ export default function Navbar() {
           <img src="/logo-white.svg" alt="Harusi Planners" className="h-10 w-auto hidden dark:block" />
         </Link>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex space-x-10 text-[11px] uppercase tracking-[0.2em] font-bold items-center">
-          {NAV_LINKS.map(({ label, to, scroll }) =>
-            scroll ? (
-              <button
-                key={label}
-                onClick={handleStartPlanning}
-                className="hover:text-rose dark:hover:text-gold transition text-plum dark:text-ivory/70"
-              >
-                {label}
-              </button>
-            ) : (
-              <NavLink
-                key={label}
-                to={to}
-                className={({ isActive }) =>
-                  `transition ${
-                    isActive
-                      ? 'text-rose dark:text-gold border-b border-rose dark:border-gold pb-0.5'
-                      : 'text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold'
-                  }`
-                }
-              >
-                {label}
-              </NavLink>
-            )
-          )}
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center space-x-10 text-[11px] uppercase tracking-[0.2em] font-bold">
 
-          {/* About dropdown */}
+          {/* Home */}
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `transition ${isActive
+                ? 'text-rose dark:text-gold border-b border-rose dark:border-gold pb-0.5'
+                : 'text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold'}`
+            }
+          >
+            Home
+          </NavLink>
+
+          {/* About dropdown — second item */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setAboutOpen(v => !v)}
               aria-expanded={aboutOpen}
               aria-haspopup="true"
-              className={`flex items-center gap-1 transition text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold ${
-                aboutOpen ? 'text-rose dark:text-gold' : ''
+              className={`flex items-center gap-1 transition ${
+                aboutOpen
+                  ? 'text-rose dark:text-gold'
+                  : 'text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold'
               }`}
             >
               About
@@ -125,7 +113,7 @@ export default function Navbar() {
 
             {aboutOpen && (
               <div
-                className="absolute top-full right-0 mt-3 w-52 bg-white dark:bg-dark-card rounded-2xl shadow-xl shadow-plum/10 border border-plum/5 dark:border-dark-border overflow-hidden"
+                className="absolute top-full left-0 mt-3 w-56 bg-white dark:bg-dark-card rounded-2xl shadow-xl shadow-plum/10 border border-plum/5 dark:border-dark-border overflow-hidden"
                 role="menu"
               >
                 {ABOUT_LINKS.map(({ label, to, desc }) => (
@@ -151,12 +139,26 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Pricing, Blog, Contact */}
+          {NAV_LINKS.filter(l => l.label !== 'Home').map(({ label, to }) => (
+            <NavLink
+              key={label}
+              to={to}
+              className={({ isActive }) =>
+                `transition ${isActive
+                  ? 'text-rose dark:text-gold border-b border-rose dark:border-gold pb-0.5'
+                  : 'text-plum dark:text-ivory/70 hover:text-rose dark:hover:text-gold'}`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
         </div>
 
         {/* Right side */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-
           <button
             onClick={handleStartPlanning}
             className="hidden md:flex items-center gap-2 bg-plum dark:bg-gold text-ivory dark:text-plum px-7 py-2.5 rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-rose dark:hover:bg-gold/80 transition-colors"
@@ -187,34 +189,20 @@ export default function Navbar() {
         aria-hidden={!menuOpen}
       >
         <nav className="flex flex-col items-center gap-8">
-          {NAV_LINKS.map(({ label, to, scroll }, i) =>
-            scroll ? (
-              <button
-                key={label}
-                onClick={handleStartPlanning}
-                className="text-3xl font-serif italic text-plum dark:text-ivory hover:text-rose dark:hover:text-gold transition"
-                style={{ transitionDelay: `${i * 50}ms` }}
-              >
-                {label}
-              </button>
-            ) : (
-              <NavLink
-                key={label}
-                to={to}
-                className={({ isActive }) =>
-                  `text-3xl font-serif italic transition ${
-                    isActive
-                      ? 'text-rose dark:text-gold'
-                      : 'text-plum dark:text-ivory hover:text-rose dark:hover:text-gold'
-                  }`
-                }
-                onClick={() => setMenuOpen(false)}
-                style={{ transitionDelay: `${i * 50}ms` }}
-              >
-                {label}
-              </NavLink>
-            )
-          )}
+
+          {/* Home */}
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `text-3xl font-serif italic transition ${
+                isActive ? 'text-rose dark:text-gold' : 'text-plum dark:text-ivory hover:text-rose dark:hover:text-gold'
+              }`
+            }
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </NavLink>
 
           {/* About collapsible */}
           <div className="flex flex-col items-center gap-3">
@@ -237,7 +225,9 @@ export default function Navbar() {
                     to={to}
                     className={({ isActive }) =>
                       `text-lg font-serif italic transition ${
-                        isActive ? 'text-rose dark:text-gold' : 'text-plum/60 dark:text-ivory/60 hover:text-rose dark:hover:text-gold'
+                        isActive
+                          ? 'text-rose dark:text-gold'
+                          : 'text-plum/60 dark:text-ivory/60 hover:text-rose dark:hover:text-gold'
                       }`
                     }
                     onClick={() => setMenuOpen(false)}
@@ -248,6 +238,26 @@ export default function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Pricing, Blog, Contact */}
+          {['Pricing', 'Blog', 'Contact'].map((label, i) => {
+            const to = `/${label.toLowerCase()}`
+            return (
+              <NavLink
+                key={label}
+                to={to}
+                className={({ isActive }) =>
+                  `text-3xl font-serif italic transition ${
+                    isActive ? 'text-rose dark:text-gold' : 'text-plum dark:text-ivory hover:text-rose dark:hover:text-gold'
+                  }`
+                }
+                onClick={() => setMenuOpen(false)}
+                style={{ transitionDelay: `${(i + 2) * 50}ms` }}
+              >
+                {label}
+              </NavLink>
+            )
+          })}
 
           <button
             onClick={handleStartPlanning}

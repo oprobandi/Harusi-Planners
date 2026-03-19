@@ -135,7 +135,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-xs text-plum/40 dark:text-ivory/40 uppercase tracking-widest mb-0.5">Email</p>
-                    <p className="text-sm font-bold text-plum dark:text-ivory">hello@harusihub.com</p>
+                    <p className="text-sm font-bold text-plum dark:text-ivory">info@harusiplanners.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

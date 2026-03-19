@@ -47,14 +47,14 @@ const TEAM = [
     name: "Paul Nyang'wara",
     role: 'Founder & Lead Architect',
     bio: "Paul is the Founder & CEO of NeuroSpark Corporation, Kenya's AI and digital studio. A Computer Science graduate of the University of Nairobi, ex-Safaricom, and ex-Andela, he built Harusi Planners to solve a real problem he witnessed repeatedly: East African couples navigating a fragmented, opaque wedding industry with no trusted digital platform to guide them. Paul leads the product and technology vision.",
-    img: 'https://images.unsplash.com/photo-1507152832244-10d45c7eda57?q=80&w=400',
+    img: '/founder.webp',
     location: '🇰🇪 Nairobi, Kenya',
   },
   {
     name: 'Planning Team',
     role: 'Senior Wedding Planners',
     bio: 'Our planning team brings over a decade of combined experience coordinating weddings across Kenya, Tanzania, Uganda, and beyond. Every planner on the team has personally coordinated at least 50 weddings and holds relationships with our full vendor network.',
-    img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=400',
+    img: 'https://images.unsplash.com/photo-1507152832244-10d45c7eda57?q=80&w=400',
     location: '🇰🇪 Nairobi & Coast',
   },
   {
