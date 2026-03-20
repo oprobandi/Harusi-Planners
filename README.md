@@ -2,14 +2,6 @@
 
 East Africa's wedding planning platform. Built with Vite + React + Tailwind, deployed on Vercel.
 
-## Local Development
-
-```bash
-npm install
-cp .env.example .env   # fill in your values
-npm run dev
-```
-
 ## Environment Variables
 
 Set these in Vercel dashboard → Project → Settings → Environment Variables.
